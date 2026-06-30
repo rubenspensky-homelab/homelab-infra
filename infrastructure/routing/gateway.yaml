@@ -4,7 +4,7 @@ metadata:
   name: homelab-gateway
   namespace: routing
 spec:
-  gatewayClassName: eg
+  gatewayClassName: envoy-gateway
   listeners:
     - name: http
       hostname: "*.home.lab"
