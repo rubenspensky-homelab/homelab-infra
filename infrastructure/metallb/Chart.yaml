@@ -1,0 +1,10 @@
+apiVersion: v2
+name: metallb-wrapper
+description: Wrapper chart for MetalLB in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: metallb
+    version: 0.16.1
+    repository: https://metallb.github.io/metallb
