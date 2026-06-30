@@ -1,0 +1,10 @@
+apiVersion: v2
+name: envoy-gateway-wrapper
+description: Wrapper chart for Envoy Gateway in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: gateway-helm
+    version: v1.8.1
+    repository: oci://docker.io/envoyproxy
