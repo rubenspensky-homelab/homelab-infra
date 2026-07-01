@@ -8,6 +8,13 @@ kube-prometheus-stack:
     service:
       type: ClusterIP
 
+    additionalDataSources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki-gateway.logging.svc.cluster.local
+        isDefault: false
+
   prometheus:
     prometheusSpec:
       retention: 7d
