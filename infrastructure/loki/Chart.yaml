@@ -1,0 +1,10 @@
+apiVersion: v2
+name: loki-wrapper
+description: Wrapper chart for Loki in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: loki
+    version: 6.30.1
+    repository: https://grafana.github.io/helm-charts
