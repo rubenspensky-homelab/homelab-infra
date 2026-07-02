@@ -1,0 +1,10 @@
+apiVersion: v2
+name: arc-controller-wrapper
+description: Wrapper chart for GitHub Actions Runner Controller in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: gha-runner-scale-set-controller
+    version: 0.14.2
+    repository: oci://ghcr.io/actions/actions-runner-controller-charts
