@@ -1,0 +1,25 @@
+gha-runner-scale-set:
+  githubConfigUrl: https://github.com/rubenspensky-homelab
+  githubConfigSecret: arc-github-app
+
+  minRunners: 0
+  maxRunners: 3
+
+  controllerServiceAccount:
+    namespace: arc-systems
+    name: arc-controller-gha-rs-controller
+
+  template:
+    spec:
+      containers:
+        - name: runner
+          image: ghcr.io/actions/actions-runner:latest
+          command:
+            - /home/runner/run.sh
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: 2
+              memory: 3Gi
