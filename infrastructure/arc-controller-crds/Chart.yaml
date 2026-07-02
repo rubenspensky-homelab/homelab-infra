@@ -1,0 +1,5 @@
+apiVersion: v2
+name: arc-controller-crds-wrapper
+description: Wrapper chart for GitHub Actions Runner Controller CRDs in the homelab cluster
+type: application
+version: 0.1.0

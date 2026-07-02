@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: arc-controller
+  name: arc-controller-crds
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   project: default
 
   source:
     repoURL: https://github.com/rubenspensky-homelab/homelab-infra.git
     targetRevision: main
-    path: infrastructure/arc-controller
+    path: infrastructure/arc-controller-crds
 
   destination:
     server: https://kubernetes.default.svc
@@ -23,4 +23,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - SkipDryRunOnMissingResource=true
+      - ServerSideApply=true
