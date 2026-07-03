@@ -10,24 +10,24 @@ This repository defines the cluster infrastructure components managed by Argo CD
 
 ## Current Components
 
-| Component | Purpose | Location |
-| --- | --- | --- |
-| Argo CD root app | Bootstraps the app-of-apps deployment model | `bootstrap/root-app.yaml` |
-| homelab-apps | Registers the external application repository in Argo CD | `applications/homelab-apps.yaml` |
-| MetalLB | Provides LoadBalancer IPs on the LAN | `applications/metallb.yaml` |
-| MetalLB config | Defines the LAN IP address pool and L2 advertisement | `infrastructure/metallb-config/` |
-| Envoy Gateway | Gateway API implementation for cluster routing | `applications/envoy-gateway.yaml` |
-| Gateway API routing | Defines the homelab gateway and HTTP routes | `infrastructure/routing/` |
-| Cloudflare Tunnel | Provides public access through Cloudflare | `applications/cloudflare-tunnel.yaml` |
-| local-path-provisioner | Default local storage provisioner | `applications/local-path-provisioner.yaml` |
-| metrics-server | Kubernetes resource metrics API | `applications/metrics-server.yaml` |
-| kube-prometheus-stack | Prometheus, Grafana, Alertmanager, kube-state-metrics, and node-exporter | `applications/prometheus-stack.yaml` |
-| Loki | Log storage backend | `applications/loki.yaml` |
-| Tempo | Trace storage backend | `applications/tempo.yaml` |
-| Alloy | Log and trace collector | `applications/alloy.yaml` |
-| GitHub Actions Runner Controller | Controller for self-hosted GitHub Actions runners | `applications/arc-controller.yaml` |
-| ARC runner scale set | Autoscaling runner set for GitHub Actions | `applications/arc-runner-set.yaml` |
-| BuildKit | Remote build service with persistent cache | `applications/buildkit.yaml` |
+| Component | Purpose |
+| --- | --- |
+| Argo CD root app | Bootstraps the app-of-apps deployment model |
+| homelab-apps | Registers the external application repository in Argo CD |
+| MetalLB | Provides LoadBalancer IPs on the LAN |
+| MetalLB config | Defines the LAN IP address pool and L2 advertisement |
+| Envoy Gateway | Gateway API implementation for cluster routing |
+| Gateway API routing | Defines the homelab gateway and HTTP routes |
+| Cloudflare Tunnel | Provides public access through Cloudflare |
+| local-path-provisioner | Default local storage provisioner |
+| metrics-server | Kubernetes resource metrics API |
+| kube-prometheus-stack | Prometheus, Grafana, Alertmanager, kube-state-metrics, and node-exporter |
+| Loki | Log storage backend |
+| Tempo | Trace storage backend |
+| Alloy | Log and trace collector |
+| GitHub Actions Runner Controller | Controller for self-hosted GitHub Actions runners |
+| ARC runner scale set | Autoscaling runner set for GitHub Actions |
+| BuildKit | Remote build service with persistent cache |
 
 ## Current Routing And Exposure
 
