@@ -2,7 +2,7 @@ tempo:
   tempo:
     reportingEnabled: false
     memBallastSizeMbs: 128
-    retention: 7d
+    retention: 168h
 
     resources:
       requests:
