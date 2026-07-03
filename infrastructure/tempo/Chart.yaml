@@ -1,0 +1,10 @@
+apiVersion: v2
+name: tempo-wrapper
+description: Wrapper chart for Tempo in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: tempo
+    version: 1.24.4
+    repository: https://grafana.github.io/helm-charts

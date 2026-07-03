@@ -14,6 +14,11 @@ kube-prometheus-stack:
         access: proxy
         url: http://loki-gateway.logging.svc.cluster.local
         isDefault: false
+      - name: Tempo
+        type: tempo
+        access: proxy
+        url: http://tempo.logging.svc.cluster.local:3200
+        isDefault: false
 
   prometheus:
     prometheusSpec:

@@ -1,0 +1,32 @@
+tempo:
+  tempo:
+    reportingEnabled: false
+    memBallastSizeMbs: 128
+    retention: 7d
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 1Gi
+
+    storage:
+      trace:
+        backend: local
+        local:
+          path: /var/tempo/traces
+        wal:
+          path: /var/tempo/wal
+
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+  persistence:
+    enabled: true
+    size: 10Gi
