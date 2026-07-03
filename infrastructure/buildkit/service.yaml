@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: buildkit
+  namespace: buildkit
+  labels:
+    app.kubernetes.io/name: buildkit
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: buildkit
+  ports:
+    - name: buildkit
+      port: 1234
+      targetPort: buildkit
+      protocol: TCP
