@@ -37,6 +37,7 @@ Both nodes run Linux kernel `6.12.94+deb13-amd64` with swap disabled.
 | GitHub Actions Runner Controller | Controller for self-hosted GitHub Actions runners |
 | ARC runner scale set | Autoscaling runner set for GitHub Actions |
 | BuildKit | Remote build service with persistent cache |
+| NVIDIA Device Plugin | Advertises NVIDIA GPUs to Kubernetes workloads |
 | KubeVirt | Kubernetes-native virtualization for running virtual machines |
 | CDI | Containerized Data Importer for importing VM disk images into PVCs |
 
