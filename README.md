@@ -8,6 +8,15 @@ This repository defines the cluster infrastructure components managed by Argo CD
 
 ![Homelab Kubernetes architecture](./arch.jpg)
 
+## Cluster Hardware
+
+| Node | Role | OS | Host | CPU | GPU | Memory | Root Disk |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `homelab` | Control plane / main node | Debian GNU/Linux 13 (trixie) x86_64 | Z97N-WIFI | Intel Core i5-4590, 4 cores, up to 3.70 GHz | NVIDIA GeForce GTX 1060 6GB; Intel integrated graphics | 15.46 GiB | 422.51 GiB ext4 |
+| `k8s-worker-01` | Worker node | Debian GNU/Linux 13 (trixie) x86_64 | HP ProBook 440 G7 | Intel Core i5-10210U, 8 threads, up to 4.20 GHz | Intel UHD Graphics | 15.47 GiB | 220.63 GiB ext4 |
+
+Both nodes run Linux kernel `6.12.94+deb13-amd64` with swap disabled.
+
 ## Current Components
 
 | Component | Purpose |
@@ -28,6 +37,8 @@ This repository defines the cluster infrastructure components managed by Argo CD
 | GitHub Actions Runner Controller | Controller for self-hosted GitHub Actions runners |
 | ARC runner scale set | Autoscaling runner set for GitHub Actions |
 | BuildKit | Remote build service with persistent cache |
+| KubeVirt | Kubernetes-native virtualization for running virtual machines |
+| CDI | Containerized Data Importer for importing VM disk images into PVCs |
 
 ## Current Routing And Exposure
 
@@ -49,6 +60,11 @@ Public exposure is handled through Cloudflare Tunnel. Cloudflare provides public
 | `bootstrap/` | Initial Argo CD root application |
 | `applications/` | Argo CD `Application` resources for infrastructure components |
 | `infrastructure/` | Helm wrapper charts, values, and Kubernetes manifests for each component |
+| `docs/` | Operational notes and component-specific documentation |
+
+## KubeVirt And CDI
+
+KubeVirt and CDI installation details, node requirements, and validation commands are documented in [docs/kubevirt-cdi.md](./docs/kubevirt-cdi.md).
 
 ## Future Components
 
