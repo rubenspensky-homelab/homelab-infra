@@ -1,0 +1,26 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: aws-s3-backup
+  namespace: cloudflare
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  refreshPolicy: CreatedOnce
+  secretStoreRef:
+    name: aws-secrets-manager
+    kind: ClusterSecretStore
+  target:
+    name: aws-s3-backup
+    creationPolicy: Owner
+    template:
+      type: Opaque
+  data:
+    - secretKey: accessKeyId
+      remoteRef:
+        key: homelab/aws/s3-backup
+        property: accessKeyId
+    - secretKey: secretAccessKey
+      remoteRef:
+        key: homelab/aws/s3-backup
+        property: secretAccessKey
