@@ -1,0 +1,30 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: arc-github-app
+  namespace: arc-systems
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  refreshInterval: 0
+  secretStoreRef:
+    name: aws-secrets-manager
+    kind: ClusterSecretStore
+  target:
+    name: arc-github-app-eso
+    creationPolicy: Owner
+    template:
+      type: Opaque
+  data:
+    - secretKey: github_app_id
+      remoteRef:
+        key: homelab/infra/arc-github-app
+        property: github_app_id
+    - secretKey: github_app_installation_id
+      remoteRef:
+        key: homelab/infra/arc-github-app
+        property: github_app_installation_id
+    - secretKey: github_app_private_key
+      remoteRef:
+        key: homelab/infra/arc-github-app
+        property: github_app_private_key

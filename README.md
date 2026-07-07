@@ -40,6 +40,7 @@ Both nodes run Linux kernel `6.12.94+deb13-amd64` with swap disabled.
 | NVIDIA Device Plugin | Advertises NVIDIA GPUs to Kubernetes workloads |
 | KubeVirt | Kubernetes-native virtualization for running virtual machines |
 | CDI | Containerized Data Importer for importing VM disk images into PVCs |
+| External Secrets Operator | Synchronizes Kubernetes secrets from AWS Secrets Manager |
 
 ## Current Routing And Exposure
 
@@ -67,22 +68,69 @@ Public exposure is handled through Cloudflare Tunnel. Cloudflare provides public
 
 KubeVirt and CDI installation details, node requirements, and validation commands are documented in [docs/kubevirt-cdi.md](./docs/kubevirt-cdi.md).
 
+## External Secrets Operator
+
+External Secrets Operator is installed with Helm through Argo CD. It uses a `ClusterSecretStore` named `aws-secrets-manager` configured for AWS Secrets Manager in `us-east-2`.
+
+The AWS IAM credentials are intentionally not committed to Git. Create this Secret out-of-band before the `ClusterSecretStore` reconciles:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-credentials
+  namespace: external-secrets
+type: Opaque
+stringData:
+  access-key-id: <aws-access-key-id>
+  secret-access-key: <aws-secret-access-key>
+```
+
+Argo CD sync waves apply the resources in dependency order:
+
+1. `external-secrets`: installs the operator and CRDs.
+2. `external-secrets-store`: creates the AWS Secrets Manager `ClusterSecretStore`.
+3. `infra-secrets`: creates infrastructure `ExternalSecret` resources that generate Kubernetes Secrets.
+
+The infrastructure `ExternalSecret` resources use `refreshInterval: 0`, so they do not poll AWS Secrets Manager periodically after syncing. To force a refresh, update the `external-secrets.io/force-sync` annotation with a new value:
+
+```bash
+kubectl annotate externalsecret cloudflare-tunnel-token \
+  -n cloudflare \
+  external-secrets.io/force-sync=$(date +%s) \
+  --overwrite
+```
+
+For a GitOps-driven refresh, change the same annotation value in Git and let Argo CD sync it.
+
+The current infrastructure secret targets use alternate Kubernetes Secret names so they can be tested before replacing the manually created Secrets:
+
+| ExternalSecret | Namespace | AWS Secrets Manager key | Generated Kubernetes Secret |
+| --- | --- | --- | --- |
+| `cloudflare-tunnel-token` | `cloudflare` | `homelab/infra/cloudflare-tunnel` | `tunnel-token-eso` |
+| `arc-github-app` | `arc-systems` | `homelab/infra/arc-github-app` | `arc-github-app-eso` |
+
+After validation, change the generated Secret names to `tunnel-token` and `arc-github-app`, then remove the manually created Secrets.
+
+Expected AWS Secrets Manager JSON values:
+
+```json
+{
+  "token": "<cloudflare-tunnel-token>"
+}
+```
+
+```json
+{
+  "github_app_id": "<github-app-id>",
+  "github_app_installation_id": "<github-app-installation-id>",
+  "github_app_private_key": "<github-app-private-key>"
+}
+```
+
 ## Future Components
 
 Only the following platform components are planned next.
-
-### External Secrets Operator With AWS Secrets Manager
-
-External Secrets Operator will be used to synchronize Kubernetes secrets from AWS Secrets Manager.
-
-Expected use cases:
-
-- Cloudflare Tunnel token
-- GitHub Actions Runner Controller credentials
-- Grafana admin credentials
-- Future application credentials
-
-Plaintext Kubernetes secrets should not be committed to Git.
 
 ### Velero With S3 Backups
 

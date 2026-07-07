@@ -1,0 +1,10 @@
+apiVersion: v2
+name: external-secrets-wrapper
+description: Wrapper chart for External Secrets Operator in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: external-secrets
+    version: 2.7.0
+    repository: https://charts.external-secrets.io
