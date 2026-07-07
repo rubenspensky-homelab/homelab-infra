@@ -2,7 +2,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: aws-s3-backup
-  namespace: cloudflare
+  namespace: velero
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
@@ -15,6 +15,11 @@ spec:
     creationPolicy: Owner
     template:
       type: Opaque
+      data:
+        cloud: |
+          [default]
+          aws_access_key_id={{ .accessKeyId }}
+          aws_secret_access_key={{ .secretAccessKey }}
   data:
     - secretKey: accessKeyId
       remoteRef:
