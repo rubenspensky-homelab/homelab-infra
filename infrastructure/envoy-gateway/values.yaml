@@ -1,1 +1,4 @@
-gateway-helm: {}
+gateway-helm:
+  certgen:
+    job:
+      ttlSecondsAfterFinished: 300
