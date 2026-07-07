@@ -194,6 +194,24 @@ imports = ["/etc/containerd/conf.d/*.toml"]
 
 ---
 
+# 7. Label the Kubernetes GPU node
+
+The NVIDIA device plugin DaemonSet expects the GPU control-plane node to be labeled manually.
+
+For the current cluster, the control-plane node `k8s-control-01` has the NVIDIA GPU:
+
+```bash
+kubectl label node k8s-control-01 accelerator=nvidia --overwrite
+```
+
+Validate:
+
+```bash
+kubectl get node k8s-control-01 --show-labels | grep accelerator
+```
+
+---
+
 # Host Validation Checklist
 
 ## Driver
