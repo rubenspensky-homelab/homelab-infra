@@ -18,5 +18,5 @@ spec:
   data:
     - secretKey: token
       remoteRef:
-        key: homelab/infra/cloudflare-tunnel
+        key: homelab/cloudflare/tunnel-token
         property: token

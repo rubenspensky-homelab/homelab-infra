@@ -18,13 +18,13 @@ spec:
   data:
     - secretKey: github_app_id
       remoteRef:
-        key: homelab/infra/arc-github-app
+        key: homelab/github/arc-app
         property: github_app_id
     - secretKey: github_app_installation_id
       remoteRef:
-        key: homelab/infra/arc-github-app
+        key: homelab/github/arc-app
         property: github_app_installation_id
     - secretKey: github_app_private_key
       remoteRef:
-        key: homelab/infra/arc-github-app
+        key: homelab/github/arc-app
         property: github_app_private_key
