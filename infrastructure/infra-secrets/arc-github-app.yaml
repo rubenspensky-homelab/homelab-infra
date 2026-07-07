@@ -6,7 +6,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
-  refreshInterval: 0
+  refreshPolicy: CreatedOnce
   secretStoreRef:
     name: aws-secrets-manager
     kind: ClusterSecretStore
