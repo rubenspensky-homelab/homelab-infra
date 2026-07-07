@@ -1,0 +1,31 @@
+velero:
+  initContainers:
+    - name: velero-plugin-for-aws
+      image: velero/velero-plugin-for-aws:v1.13.1
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - mountPath: /target
+          name: plugins
+
+  credentials:
+    useSecret: true
+    existingSecret: aws-s3-backup
+
+  configuration:
+    backupStorageLocation:
+      - name: default
+        provider: aws
+        bucket: homelab-backups-705777572913
+        default: true
+        credential:
+          name: aws-s3-backup
+          key: cloud
+        config:
+          region: us-east-2
+
+    volumeSnapshotLocation: []
+
+  backupsEnabled: true
+  snapshotsEnabled: false
+  deployNodeAgent: false
+  schedules: {}
