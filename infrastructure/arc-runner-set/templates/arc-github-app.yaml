@@ -4,14 +4,14 @@ metadata:
   name: arc-github-app
   namespace: arc-systems
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   refreshPolicy: CreatedOnce
   secretStoreRef:
     name: aws-secrets-manager
     kind: ClusterSecretStore
   target:
-    name: arc-github-app-eso
+    name: arc-github-app
     creationPolicy: Owner
     template:
       type: Opaque

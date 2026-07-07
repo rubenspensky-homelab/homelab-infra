@@ -4,14 +4,14 @@ metadata:
   name: cloudflare-tunnel-token
   namespace: cloudflare
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   refreshPolicy: CreatedOnce
   secretStoreRef:
     name: aws-secrets-manager
     kind: ClusterSecretStore
   target:
-    name: tunnel-token-eso
+    name: tunnel-token
     creationPolicy: Owner
     template:
       type: Opaque
