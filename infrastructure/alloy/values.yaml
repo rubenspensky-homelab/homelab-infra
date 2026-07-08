@@ -77,6 +77,12 @@ alloy:
         // Faro receives browser telemetry from the public /collect endpoint.
         // Logs are written to Loki and traces use the existing Tempo OTLP exporter.
         faro.receiver "frontend" {
+          log_format = "json"
+
+          extra_log_labels = {
+            source = "faro"
+          }
+
           server {
             listen_address       = "0.0.0.0"
             listen_port          = 12347
