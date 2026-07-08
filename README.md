@@ -31,6 +31,7 @@ This repository defines the cluster infrastructure components managed by Argo CD
 | Envoy Gateway | Gateway API implementation for cluster routing |
 | Gateway API routing | Defines the homelab gateway and HTTP routes |
 | Cloudflare Tunnel | Provides public access through Cloudflare |
+| Authentik | Identity provider and SSO for cluster services |
 | local-path-provisioner | Default local storage provisioner |
 | metrics-server | Kubernetes resource metrics API |
 | kube-prometheus-stack | Prometheus, Grafana, Alertmanager, kube-state-metrics, and node-exporter |
@@ -55,6 +56,7 @@ Current internal routes:
 
 - `grafana.home.lab`
 - `argocd.home.lab`
+- `auth.home.lab`
 
 Public exposure is handled through Cloudflare Tunnel. Cloudflare provides public TLS termination, so `cert-manager` is not currently required for the public access model.
 

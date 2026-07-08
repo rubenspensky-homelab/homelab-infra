@@ -1,0 +1,49 @@
+authentik:
+  authentik:
+    secret_key: change-me-authentik-secret-key-before-production
+    error_reporting:
+      enabled: false
+    postgresql:
+      password: change-me-authentik-postgresql-password
+
+  server:
+    replicas: 1
+    service:
+      type: ClusterIP
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        memory: 1Gi
+
+  worker:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        memory: 1Gi
+
+  postgresql:
+    enabled: true
+    auth:
+      username: authentik
+      database: authentik
+      password: change-me-authentik-postgresql-password
+      postgresPassword: change-me-authentik-postgresql-admin-password
+    primary:
+      persistence:
+        enabled: true
+        size: 8Gi
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          memory: 512Mi

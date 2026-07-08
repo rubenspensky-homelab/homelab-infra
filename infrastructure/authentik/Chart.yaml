@@ -1,0 +1,10 @@
+apiVersion: v2
+name: authentik-wrapper
+description: Wrapper chart for Authentik identity provider in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: authentik
+    version: 2026.5.4
+    repository: https://charts.goauthentik.io
