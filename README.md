@@ -1,6 +1,8 @@
-# Homelab Infrastructure
+# Kubernetes Infrastructure GitOps
 
 GitOps-managed Kubernetes infrastructure for a homelab platform.
+
+This is the active infrastructure repository: [rubenspensky-homelab/infrastructure](https://github.com/rubenspensky-homelab/infrastructure).
 
 This repository defines the cluster infrastructure components managed by Argo CD. Application workloads are delegated to the separate `homelab-apps` repository.
 
@@ -12,10 +14,11 @@ This repository defines the cluster infrastructure components managed by Argo CD
 
 | Node | Role | OS | Host | CPU | GPU | Memory | Root Disk |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `homelab` | Control plane / main node | Debian GNU/Linux 13 (trixie) x86_64 | Z97N-WIFI | Intel Core i5-4590, 4 cores, up to 3.70 GHz | NVIDIA GeForce GTX 1060 6GB; Intel integrated graphics | 15.46 GiB | 422.51 GiB ext4 |
-| `k8s-worker-01` | Worker node | Debian GNU/Linux 13 (trixie) x86_64 | HP ProBook 440 G7 | Intel Core i5-10210U, 8 threads, up to 4.20 GHz | Intel UHD Graphics | 15.47 GiB | 220.63 GiB ext4 |
+| `k8s-control-01` | Control plane node | Debian GNU/Linux 13 (trixie) x86_64 | Gigabyte Z97N-WIFI | Intel Core i5-4590, 4 cores, up to 3.70 GHz | NVIDIA GeForce GTX 1060 6GB; Intel integrated graphics | 15.46 GiB | 446.14 GiB ext4 |
+| `k8s-worker-01` | Worker node | Debian GNU/Linux 13 (trixie) x86_64 | HP ProBook 440 G7 | Intel Core i5-10210U, 8 threads, up to 4.20 GHz | Intel UHD Graphics | 15.47 GiB | 237.49 GiB ext4 |
+| `k8s-worker-02` | Worker node | Debian GNU/Linux 13 (trixie) x86_64 | Lenovo ThinkPad T480 | Intel Core i7-8650U, 8 threads, up to 4.20 GHz | NVIDIA GeForce MX150; Intel UHD Graphics 620 | 7.51 GiB | 118.27 GiB ext4 |
 
-Both nodes run Linux kernel `6.12.94+deb13-amd64` with swap disabled.
+`k8s-control-01` runs Linux kernel `6.12.95+deb13-amd64`; `k8s-worker-01` and `k8s-worker-02` run `6.12.86+deb13-amd64`. Swap is disabled on all nodes.
 
 ## Current Components
 
@@ -41,6 +44,7 @@ Both nodes run Linux kernel `6.12.94+deb13-amd64` with swap disabled.
 | KubeVirt | Kubernetes-native virtualization for running virtual machines |
 | CDI | Containerized Data Importer for importing VM disk images into PVCs |
 | External Secrets Operator | Synchronizes Kubernetes secrets from AWS Secrets Manager |
+| Velero | Cluster backup and restore with S3-compatible object storage |
 
 ## Current Routing And Exposure
 
@@ -71,21 +75,6 @@ KubeVirt and CDI installation details, node requirements, and validation command
 ## External Secrets Operator
 
 External Secrets Operator synchronizes Kubernetes infrastructure secrets from AWS Secrets Manager. Installation order, AWS credential requirements, manual refresh behavior, and current infrastructure secret mappings are documented in [docs/external-secrets.md](./docs/external-secrets.md).
-
-## Future Components
-
-Only the following platform components are planned next.
-
-### Velero With S3 Backups
-
-Velero will be used for cluster backup and restore.
-
-Expected setup:
-
-- Store backups in S3
-- Back up Kubernetes resources
-- Add scheduled backups
-- Define and test a restore process
 
 ## Bootstrap
 
