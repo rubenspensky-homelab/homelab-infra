@@ -1,0 +1,10 @@
+apiVersion: v2
+name: dcgm-exporter-wrapper
+description: Wrapper chart for NVIDIA DCGM Exporter in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: dcgm-exporter
+    version: 4.8.2
+    repository: https://nvidia.github.io/dcgm-exporter/helm-charts

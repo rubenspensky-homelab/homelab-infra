@@ -41,6 +41,7 @@ This repository defines the cluster infrastructure components managed by Argo CD
 | ARC runner scale set | Autoscaling runner set for GitHub Actions |
 | BuildKit | Remote build service with persistent cache |
 | NVIDIA Device Plugin | Advertises NVIDIA GPUs to Kubernetes workloads |
+| NVIDIA DCGM Exporter | Exposes NVIDIA GPU metrics to Prometheus |
 | KubeVirt | Kubernetes-native virtualization for running virtual machines |
 | CDI | Containerized Data Importer for importing VM disk images into PVCs |
 | External Secrets Operator | Synchronizes Kubernetes secrets from AWS Secrets Manager |
