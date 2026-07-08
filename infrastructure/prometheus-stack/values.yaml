@@ -8,6 +8,14 @@ kube-prometheus-stack:
     service:
       type: ClusterIP
 
+    sidecar:
+      dashboards:
+        enabled: true
+        label: grafana_dashboard
+        labelValue: "1"
+        folderAnnotation: grafana_folder
+        searchNamespace: monitoring
+
     additionalDataSources:
       - name: Loki
         type: loki
