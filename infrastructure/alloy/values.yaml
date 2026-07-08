@@ -80,7 +80,7 @@ alloy:
           log_format = "json"
 
           extra_log_labels = {
-            source = "faro"
+            source = "faro",
           }
 
           server {
