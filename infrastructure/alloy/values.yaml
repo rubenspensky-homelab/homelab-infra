@@ -14,6 +14,11 @@ alloy:
         targetPort: 4318
         protocol: TCP
         appProtocol: http
+      - name: faro
+        port: 12347
+        targetPort: 12347
+        protocol: TCP
+        appProtocol: http
 
     configMap:
       create: true
@@ -66,6 +71,21 @@ alloy:
         loki.write "default" {
           endpoint {
             url = "http://loki-gateway.logging.svc.cluster.local/loki/api/v1/push"
+          }
+        }
+
+        // Faro receives browser telemetry from the public /collect endpoint.
+        // Logs are written to Loki and traces use the existing Tempo OTLP exporter.
+        faro.receiver "frontend" {
+          server {
+            listen_address       = "0.0.0.0"
+            listen_port          = 12347
+            cors_allowed_origins = ["*"]
+          }
+
+          output {
+            logs   = [loki.write.default.receiver]
+            traces = [otelcol.exporter.otlp.tempo.input]
           }
         }
 

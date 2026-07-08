@@ -1,0 +1,21 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: alloy-faro
+  namespace: logging
+spec:
+  parentRefs:
+    - name: homelab-gateway
+      namespace: routing
+  hostnames:
+    - telemetry.rubenspensky.com
+  rules:
+    # Public browser telemetry ingress. Only /collect is routed to Alloy's Faro receiver;
+    # OTLP ports remain available through the internal Alloy Service only.
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /collect
+      backendRefs:
+        - name: alloy
+          port: 12347
