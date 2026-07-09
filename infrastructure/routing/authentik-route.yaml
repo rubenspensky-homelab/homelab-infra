@@ -1,26 +1,26 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: authentik
+  name: authentik-public
   namespace: authentik
 spec:
   parentRefs:
     - name: homelab-gateway
       namespace: routing
+      sectionName: http-public
   hostnames:
-    - auth.home.lab
     - auth.rubenspensky.com
-  filters:
-    - type: RequestHeaderModifier
-      requestHeaderModifier:
-        set:
-          - name: X-Forwarded-Proto
-            value: https
-          - name: X-Forwarded-Host
-            value: auth.rubenspensky.com
-          - name: X-Forwarded-Port
-            value: "443"
   rules:
-    - backendRefs:
+    - filters:
+        - type: RequestHeaderModifier
+          requestHeaderModifier:
+            set:
+              - name: X-Forwarded-Proto
+                value: https
+              - name: X-Forwarded-Host
+                value: auth.rubenspensky.com
+              - name: X-Forwarded-Port
+                value: "443"
+      backendRefs:
         - name: authentik-server
           port: 80
