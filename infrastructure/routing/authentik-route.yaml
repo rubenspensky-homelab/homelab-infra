@@ -9,6 +9,7 @@ spec:
       namespace: routing
   hostnames:
     - auth.home.lab
+    - auth.rubenspensky.com
   rules:
     - backendRefs:
         - name: authentik-server
