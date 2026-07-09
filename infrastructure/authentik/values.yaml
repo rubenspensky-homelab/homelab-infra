@@ -1,3 +1,7 @@
+blueprints:
+  configMaps:
+    - authentik-brand-blueprints
+
 authentik:
   global:
     env:

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authentik-brand-blueprints
+data:
+  homelab-brand.yaml: |
+    version: 1
+    metadata:
+      name: Homelab Brand
+    entries:
+      - model: authentik_brands.brand
+        state: present
+        identifiers:
+          domain: auth.home.lab
+        attrs:
+          default: false
+          branding_title: Homelab Auth
+          branding_custom_css: |
+            :root {
+              --pf-global--primary-color--100: #7c3aed;
+            }
+
+      - model: authentik_brands.brand
+        state: present
+        identifiers:
+          domain: auth.rubenspensky.com
+        attrs:
+          default: false
+          branding_title: Homelab Auth
+          branding_custom_css: |
+            :root {
+              --pf-global--primary-color--100: #7c3aed;
+            }
