@@ -10,6 +10,16 @@ spec:
   hostnames:
     - auth.home.lab
     - auth.rubenspensky.com
+  filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        set:
+          - name: X-Forwarded-Proto
+            value: https
+          - name: X-Forwarded-Host
+            value: auth.rubenspensky.com
+          - name: X-Forwarded-Port
+            value: "443"
   rules:
     - backendRefs:
         - name: authentik-server
