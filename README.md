@@ -79,6 +79,10 @@ KubeVirt and CDI installation details, node requirements, and validation command
 
 External Secrets Operator synchronizes Kubernetes infrastructure secrets from AWS Secrets Manager. Installation order, AWS credential requirements, manual refresh behavior, and current infrastructure secret mappings are documented in [docs/external-secrets.md](./docs/external-secrets.md).
 
+## Authentik
+
+Authentik deployment structure and the current blueprint-based branding approach are documented in [docs/authentik.md](./docs/authentik.md).
+
 ## Bootstrap
 
 High-level bootstrap flow:

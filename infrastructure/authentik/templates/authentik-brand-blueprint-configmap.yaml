@@ -14,10 +14,25 @@ data:
           domain: auth.home.lab
         attrs:
           default: false
-          branding_title: Homelab Auth
+          branding_title: Homelab Lab Auth
+          branding_logo: https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/rubenspensky-logo.svg
+          branding_favicon: https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/rubenspensky-icon.svg
           branding_custom_css: |
             :root {
-              --pf-global--primary-color--100: #7c3aed;
+              --pf-global--primary-color--100: #0f766e;
+              --pf-global--primary-color--200: #115e59;
+              --pf-global--link--Color: #14b8a6;
+            }
+
+            .pf-c-button.pf-m-primary,
+            button[type="submit"] {
+              background: linear-gradient(135deg, #0f766e, #14b8a6) !important;
+              border: none !important;
+            }
+
+            .pf-c-login__main {
+              border-radius: 18px;
+              box-shadow: 0 20px 60px rgba(15, 118, 110, 0.35);
             }
 
       - model: authentik_brands.brand
@@ -25,9 +40,24 @@ data:
         identifiers:
           domain: auth.rubenspensky.com
         attrs:
-          default: false
-          branding_title: Homelab Auth
+          default: true
+          branding_title: Rubenspensky Auth
+          branding_logo: https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/rubenspensky-logo.svg
+          branding_favicon: https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/rubenspensky-icon.svg
           branding_custom_css: |
             :root {
               --pf-global--primary-color--100: #7c3aed;
+              --pf-global--primary-color--200: #6d28d9;
+              --pf-global--link--Color: #a855f7;
+            }
+
+            .pf-c-button.pf-m-primary,
+            button[type="submit"] {
+              background: linear-gradient(135deg, #7c3aed, #ec4899) !important;
+              border: none !important;
+            }
+
+            .pf-c-login__main {
+              border-radius: 18px;
+              box-shadow: 0 20px 60px rgba(124, 58, 237, 0.35);
             }

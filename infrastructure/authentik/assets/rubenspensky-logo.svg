@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="160" viewBox="0 0 640 160" role="img" aria-labelledby="title desc">
+  <title id="title">Rubenspensky Auth</title>
+  <desc id="desc">Rubenspensky branded logo for Authentik</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c4b5fd" />
+      <stop offset="100%" stop-color="#f9a8d4" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="160" rx="28" fill="#111827" />
+  <g transform="translate(28 28)">
+    <rect x="0" y="0" width="104" height="104" rx="24" fill="url(#bg)" />
+    <path d="M28 78V26h26c17 0 28 9 28 24 0 12-7 19-18 22l23 32H64L45 76h-7v28H28zm10-36h14c11 0 18-5 18-14 0-8-6-13-18-13H38v27z" fill="#fff"/>
+    <circle cx="92" cy="24" r="10" fill="#fff" opacity="0.92"/>
+  </g>
+  <text x="156" y="72" fill="url(#fg)" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="44" font-weight="700">Rubenspensky</text>
+  <text x="156" y="114" fill="#e5e7eb" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="24" font-weight="500">Auth Portal</text>
+</svg>
