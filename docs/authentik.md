@@ -59,8 +59,8 @@ Current behavior:
 
 - `auth.rubenspensky.com` is marked as the default brand.
 - `auth.home.lab` keeps a separate non-default brand.
-- The blueprint customizes `branding_title`, `branding_custom_css`, and now references uploaded media file names for `branding_logo` and `branding_favicon`.
-- The current test values for logo and favicon are `rubenspensky-logo.svg` and `rubenspensky-icon.svg`, which correspond to files uploaded through Authentik's file management UI.
+- The active blueprint customizes `branding_title` and `branding_custom_css`.
+- Logo and favicon can be managed manually in the Authentik UI for now while the repository keeps the declarative CSS and title changes.
 
 ## Runtime behavior
 
