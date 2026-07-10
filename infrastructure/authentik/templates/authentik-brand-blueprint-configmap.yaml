@@ -15,6 +15,8 @@ data:
         attrs:
           default: false
           branding_title: Homelab Lab Auth
+          branding_logo: rubenspensky-logo.svg
+          branding_favicon: rubenspensky-icon.svg
           branding_custom_css: |
             :root {
               --pf-global--primary-color--100: #0f766e;
@@ -40,6 +42,8 @@ data:
         attrs:
           default: true
           branding_title: Rubenspensky Auth
+          branding_logo: rubenspensky-logo.svg
+          branding_favicon: rubenspensky-icon.svg
           branding_custom_css: |
             :root {
               --pf-global--primary-color--100: #7c3aed;
