@@ -1,0 +1,12 @@
+{{- if .Values.mediaPersistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: authentik-media
+spec:
+  accessModes:
+    {{- toYaml .Values.mediaPersistence.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.mediaPersistence.size }}
+{{- end }}

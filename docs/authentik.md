@@ -6,6 +6,7 @@
 - Wrapper chart: `infrastructure/authentik/Chart.yaml`
 - Wrapper values: `infrastructure/authentik/values.yaml`
 - Branding blueprint ConfigMap: `infrastructure/authentik/templates/authentik-brand-blueprint-configmap.yaml`
+- Media PVC: `infrastructure/authentik/templates/authentik-media-pvc.yaml`
 - Branding assets: `infrastructure/authentik/assets/rubenspensky-logo.svg`, `infrastructure/authentik/assets/rubenspensky-icon.svg` (currently not applied by the active blueprint after a failed external-logo attempt)
 - Routing: `infrastructure/routing/authentik-route.yaml`, `infrastructure/routing/authentik-route-local.yaml`
 
@@ -29,6 +30,19 @@ blueprints:
   configMaps:
     - authentik-brand-blueprints
 ```
+
+## Media storage for file uploads
+
+This repository now mounts `/data` for Authentik so the built-in file management UI can be used for branding assets.
+
+Implementation details:
+
+- `AUTHENTIK_STORAGE__BACKEND=file`
+- `AUTHENTIK_STORAGE__FILE__PATH=/data`
+- `authentik-media` PVC mounted into both the server and worker pods
+- worker pod affinity is set to co-locate with the server pod so a single `ReadWriteOnce` volume can be mounted by both pods on the same node
+
+This is intended to support Authentik media uploads such as logos and favicons through **Customization > Files**.
 
 ## Branding via blueprints
 
