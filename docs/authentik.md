@@ -6,6 +6,7 @@
 - Wrapper chart: `infrastructure/authentik/Chart.yaml`
 - Wrapper values: `infrastructure/authentik/values.yaml`
 - Branding blueprint ConfigMap: `infrastructure/authentik/templates/authentik-brand-blueprint-configmap.yaml`
+- User registration blueprint ConfigMap: `infrastructure/authentik/templates/authentik-user-registration-blueprint-configmap.yaml`
 - Media PVC: `infrastructure/authentik/templates/authentik-media-pvc.yaml`
 - Branding assets: `infrastructure/authentik/assets/rubenspensky-logo.svg`, `infrastructure/authentik/assets/rubenspensky-icon.svg` (currently not applied by the active blueprint after a failed external-logo attempt)
 - Routing: `infrastructure/routing/authentik-route.yaml`, `infrastructure/routing/authentik-route-local.yaml`
@@ -66,4 +67,9 @@ Current behavior:
 
 The upstream chart discovers blueprint files from mounted `ConfigMap` and `Secret` sources. In this repository, enabling `authentik.blueprints.configMaps` causes the Authentik worker deployment to mount the named `ConfigMap`, after which Authentik can discover and apply `*.yaml` blueprint files from it.
 
-Operationally, if a branding blueprint appears to have no effect, first verify that the blueprint source is configured under `authentik.blueprints` rather than at the wrapper chart root.
+Current mounted blueprints include:
+
+- branding configuration from `authentik-brand-blueprints`
+- a public self-registration enrollment flow from `authentik-user-registration-blueprints`
+
+Operationally, if a blueprint appears to have no effect, first verify that the blueprint source is configured under `authentik.blueprints` rather than at the wrapper chart root.

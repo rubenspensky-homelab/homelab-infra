@@ -8,6 +8,7 @@ authentik:
   blueprints:
     configMaps:
       - authentik-brand-blueprints
+      - authentik-user-registration-blueprints
   global:
     env:
       - name: AUTHENTIK_LISTEN__TRUSTED_PROXY_CIDRS
