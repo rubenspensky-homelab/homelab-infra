@@ -6,7 +6,7 @@
 - Wrapper chart: `infrastructure/authentik/Chart.yaml`
 - Wrapper values: `infrastructure/authentik/values.yaml`
 - Branding blueprint ConfigMap: `infrastructure/authentik/templates/authentik-brand-blueprint-configmap.yaml`
-- Branding assets: `infrastructure/authentik/assets/rubenspensky-logo.svg`, `infrastructure/authentik/assets/rubenspensky-icon.svg`
+- Branding assets: `infrastructure/authentik/assets/rubenspensky-logo.svg`, `infrastructure/authentik/assets/rubenspensky-icon.svg` (currently not applied by the active blueprint after a failed external-logo attempt)
 - Routing: `infrastructure/routing/authentik-route.yaml`, `infrastructure/routing/authentik-route-local.yaml`
 
 ## Deployment model
@@ -45,8 +45,8 @@ Current behavior:
 
 - `auth.rubenspensky.com` is marked as the default brand.
 - `auth.home.lab` keeps a separate non-default brand.
-- Both brands currently customize `branding_title`, `branding_logo`, `branding_favicon`, and `branding_custom_css`.
-- Logo and favicon are referenced through raw GitHub URLs that point at the SVG assets committed in this repository.
+- The active working blueprint customizes `branding_title` and `branding_custom_css`.
+- Repository SVG assets exist for future branding work, but the external-logo attempt was removed after the mounted blueprint entered an error state during application.
 
 ## Runtime behavior
 
