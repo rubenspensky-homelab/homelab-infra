@@ -10,6 +10,9 @@ authentik:
       - authentik-brand-blueprints
       - authentik-user-registration-blueprints
   global:
+    envFrom:
+      - secretRef:
+          name: authentik-config
     env:
       - name: AUTHENTIK_LISTEN__TRUSTED_PROXY_CIDRS
         value: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
@@ -19,11 +22,13 @@ authentik:
         value: /data
 
   authentik:
-    secret_key: change-me-authentik-secret-key-before-production
     error_reporting:
       enabled: false
     postgresql:
-      password: change-me-authentik-postgresql-password
+      host: homelab-postgres-rw.databases.svc.cluster.local
+      name: authentik
+      user: authentik
+      port: 5432
 
   server:
     replicas: 1
@@ -73,19 +78,4 @@ authentik:
         memory: 1Gi
 
   postgresql:
-    enabled: true
-    auth:
-      username: authentik
-      database: authentik
-      password: change-me-authentik-postgresql-password
-      postgresPassword: change-me-authentik-postgresql-admin-password
-    primary:
-      persistence:
-        enabled: true
-        size: 8Gi
-      resources:
-        requests:
-          cpu: 100m
-          memory: 256Mi
-        limits:
-          memory: 512Mi
+    enabled: false

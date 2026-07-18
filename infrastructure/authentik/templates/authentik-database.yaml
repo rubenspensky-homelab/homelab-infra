@@ -1,0 +1,13 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: homelab-postgres-authentik
+  namespace: databases
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  cluster:
+    name: homelab-postgres
+  name: authentik
+  owner: authentik
+  databaseReclaimPolicy: retain

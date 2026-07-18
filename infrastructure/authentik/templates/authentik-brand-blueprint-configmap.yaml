@@ -43,479 +43,606 @@ data:
           branding_custom_css: |
             /* ==========================================================
             Rubenspensky Home Lab
-            Authentik Login Theme
+            Authentik Login Theme — Monochrome Neo-Brutalist
             ========================================================== */
 
-          :root {
-            /* PatternFly / Authentik colors */
+            :root {
+            color-scheme: dark;
 
-            --pf-global--primary-color--100: #1687ff;
-            --pf-global--primary-color--200: #0f6ad8;
-            --pf-global--primary-color--300: #0852b8;
+            /* PatternFly / Authentik */
+            --pf-global--primary-color--100: #ffffff;
+            --pf-global--primary-color--200: #d4d4d4;
+            --pf-global--primary-color--300: #a3a3a3;
 
-            --pf-global--link--Color: #45b6ff;
-            --pf-global--link--Color--hover: #8bd7ff;
-
-            /* Brand colors */
-
-            --rubenspensky-blue: #1687ff;
-            --rubenspensky-blue-light: #4fc3ff;
-            --rubenspensky-orange: #ff5a24;
+            --pf-global--link--Color: #ffffff;
+            --pf-global--link--Color--hover: #d4d4d4;
 
             /* Surfaces */
-
-            --rubenspensky-card-top: rgba(25, 37, 54, 0.97);
-            --rubenspensky-card-bottom: rgba(13, 22, 35, 0.97);
-            --rubenspensky-input: rgba(5, 14, 27, 0.9);
+            --rs-bg: #050505;
+            --rs-panel: #0a0a0a;
+            --rs-panel-raised: #111111;
+            --rs-input: #050505;
+            --rs-hover: #171717;
 
             /* Text */
-
-            --rubenspensky-text: #f1f7ff;
-            --rubenspensky-text-secondary: #c2d0df;
-            --rubenspensky-text-muted: #8295aa;
+            --rs-text: #ffffff;
+            --rs-text-secondary: #d4d4d4;
+            --rs-text-muted: #8a8a8a;
+            --rs-text-disabled: #5f5f5f;
 
             /* Borders */
+            --rs-border-strong: #a3a3a3;
+            --rs-border: #525252;
+            --rs-border-subtle: #2d2d2d;
 
-            --rubenspensky-border: rgba(70, 155, 255, 0.22);
-            --rubenspensky-input-border: rgba(92, 140, 195, 0.3);
-          }
+            /* Status */
+            --rs-danger: #ffffff;
+            --rs-success: #ffffff;
 
-          /* ==========================================================
-            Page
-            Do not use "background" here because it removes the image.
+            /* Typography */
+            --rs-font-mono:
+              "JetBrains Mono",
+              "IBM Plex Mono",
+              "SFMono-Regular",
+              Consolas,
+              "Liberation Mono",
+              Menlo,
+              monospace;
+            }
+
+            /* ==========================================================
+            Reset and page
             ========================================================== */
 
-          html,
-          body {
+            html,
+            body {
             min-height: 100%;
-            color: var(--rubenspensky-text);
-          }
+            color: var(--rs-text);
+            font-family: var(--rs-font-mono) !important;
+            }
 
-          /* Keep the Authentik background image visible */
-          body {
-            background-color: #020817 !important;
-          }
+            body {
+            background-color: var(--rs-bg) !important;
+            background-image:
+              linear-gradient(var(--rs-border-subtle) 1px, transparent 1px),
+              linear-gradient(90deg, var(--rs-border-subtle) 1px, transparent 1px) !important;
+            background-size: 32px 32px !important;
+            background-position: -1px -1px !important;
+            }
 
-          /* ==========================================================
+            *,
+            *::before,
+            *::after {
+            box-sizing: border-box;
+            }
+
+            ::selection {
+            background: #ffffff;
+            color: #000000;
+            }
+
+            /* ==========================================================
             Main login card
             ========================================================== */
 
-          .pf-c-login__main,
-          .pf-v5-c-login__main {
+            .pf-c-login__main,
+            .pf-v5-c-login__main {
             position: relative;
 
             width: min(100%, 530px) !important;
 
-            background:
-              linear-gradient(
-                180deg,
-                var(--rubenspensky-card-top) 0%,
-                var(--rubenspensky-card-bottom) 100%
-              ) !important;
+            background: var(--rs-panel) !important;
 
-            border: 1px solid var(--rubenspensky-border) !important;
-            border-radius: 20px !important;
+            border: 2px solid var(--rs-border-strong) !important;
+            border-radius: 0 !important;
 
-            box-shadow:
-              0 24px 70px rgba(0, 0, 0, 0.62),
-              0 0 20px rgba(22, 135, 255, 0.08) !important;
+            box-shadow: 8px 8px 0 #000000 !important;
 
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
+            overflow: visible;
+            }
 
-            overflow: hidden;
-          }
+            /* Industrial top rail */
+            .pf-c-login__main::before,
+            .pf-v5-c-login__main::before {
+            content: "AUTH_GATEWAY // RUBENSPENSKY_HOME_LAB";
 
-          /* Blue line at the top of the card */
-          .pf-c-login__main::before,
-          .pf-v5-c-login__main::before {
-            content: "";
+            display: flex;
+            align-items: center;
+
+            min-height: 30px;
+            padding: 6px 10px;
 
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: -32px;
+            left: -2px;
+            right: -2px;
 
-            height: 2px;
+            background: #ffffff;
+            color: #000000;
 
-            background:
-              linear-gradient(
-                90deg,
-                transparent 0%,
-                #1687ff 35%,
-                #55c8ff 50%,
-                #1687ff 65%,
-                transparent 100%
-              );
+            border: 2px solid #ffffff;
 
-            box-shadow: 0 0 12px rgba(22, 135, 255, 0.45);
+            font-family: var(--rs-font-mono);
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            line-height: 1;
 
             pointer-events: none;
-          }
+            }
 
-          /* ==========================================================
+            /* Small status marker */
+            .pf-c-login__main::after,
+            .pf-v5-c-login__main::after {
+            content: "● ONLINE";
+
+            position: absolute;
+            top: -25px;
+            right: 10px;
+
+            color: #000000;
+
+            font-family: var(--rs-font-mono);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+
+            pointer-events: none;
+            }
+
+            /* ==========================================================
             Card spacing
             ========================================================== */
 
-          .pf-c-login__main-body,
-          .pf-v5-c-login__main-body {
+            .pf-c-login__main-body,
+            .pf-v5-c-login__main-body {
             padding-top: 1.25rem !important;
-            padding-bottom: 1.25rem !important;
-          }
+            padding-bottom: 1.5rem !important;
+            }
 
-          /* Reduce excessive vertical space */
-          .pf-c-form,
-          .pf-v5-c-form {
+            .pf-c-form,
+            .pf-v5-c-form {
             gap: 1rem !important;
-          }
+            }
 
-          .pf-c-form__group,
-          .pf-v5-c-form__group {
+            .pf-c-form__group,
+            .pf-v5-c-form__group {
             margin-bottom: 1rem !important;
-          }
+            }
 
-          /* ==========================================================
+            /* ==========================================================
             Logo
             ========================================================== */
 
-          .pf-c-login__main-header,
-          .pf-v5-c-login__main-header {
-            padding-bottom: 0.75rem !important;
-          }
+            .pf-c-login__main-header,
+            .pf-v5-c-login__main-header {
+            padding-bottom: 1rem !important;
+            border-bottom: 1px solid var(--rs-border-subtle);
+            }
 
-          .pf-c-login__main-header img,
-          .pf-v5-c-login__main-header img {
+            .pf-c-login__main-header img,
+            .pf-v5-c-login__main-header img {
             width: auto !important;
             max-width: 280px !important;
-            max-height: 180px !important;
+            max-height: 170px !important;
 
             object-fit: contain;
 
-            filter:
-              drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3))
-              drop-shadow(0 0 14px rgba(22, 135, 255, 0.14));
-          }
+            filter: grayscale(1) contrast(1.1);
+            }
 
-          /* ==========================================================
+            /* ==========================================================
             Titles and text
             ========================================================== */
 
-          .pf-c-title,
-          .pf-v5-c-title,
-          .pf-c-login__main-header,
-          .pf-v5-c-login__main-header,
-          h1,
-          h2,
-          h3 {
-            color: var(--rubenspensky-text) !important;
-          }
+            .pf-c-title,
+            .pf-v5-c-title,
+            .pf-c-login__main-header,
+            .pf-v5-c-login__main-header,
+            h1,
+            h2,
+            h3 {
+            color: var(--rs-text) !important;
+            font-family: var(--rs-font-mono) !important;
+            }
 
-          .pf-c-title,
-          .pf-v5-c-title,
-          h1 {
-            font-weight: 500 !important;
-            letter-spacing: -0.02em;
-          }
+            .pf-c-title,
+            .pf-v5-c-title,
+            h1 {
+            font-weight: 700 !important;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+            }
 
-          p,
-          label,
-          .pf-c-form__label-text,
-          .pf-v5-c-form__label-text {
-            color: var(--rubenspensky-text-secondary) !important;
-          }
+            .pf-c-title::before,
+            .pf-v5-c-title::before,
+            h1::before {
+            content: "> ";
+            color: var(--rs-text-muted);
+            }
 
-          .pf-c-form__label-text,
-          .pf-v5-c-form__label-text {
-            font-weight: 600 !important;
-          }
+            p,
+            label,
+            .pf-c-form__label-text,
+            .pf-v5-c-form__label-text {
+            color: var(--rs-text-secondary) !important;
+            font-family: var(--rs-font-mono) !important;
+            }
 
-          /* Placeholder text */
-          input::placeholder,
-          textarea::placeholder {
-            color: #7f8c9d !important;
+            .pf-c-form__label-text,
+            .pf-v5-c-form__label-text {
+            font-size: 0.75rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            }
+
+            input::placeholder,
+            textarea::placeholder {
+            color: var(--rs-text-muted) !important;
             opacity: 1;
-          }
+            }
 
-          /* Secondary and helper text */
-          .pf-c-helper-text,
-          .pf-v5-c-helper-text,
-          .pf-c-form__helper-text,
-          .pf-v5-c-form__helper-text {
-            color: var(--rubenspensky-text-muted) !important;
-          }
+            .pf-c-helper-text,
+            .pf-v5-c-helper-text,
+            .pf-c-form__helper-text,
+            .pf-v5-c-form__helper-text {
+            color: var(--rs-text-muted) !important;
+            font-family: var(--rs-font-mono) !important;
+            font-size: 0.72rem !important;
+            }
 
-          /* ==========================================================
+            /* ==========================================================
             Inputs
             ========================================================== */
 
-          .pf-c-form-control,
-          .pf-v5-c-form-control,
-          input,
-          select,
-          textarea {
-            min-height: 42px;
+            .pf-c-form-control,
+            .pf-v5-c-form-control,
+            input,
+            select,
+            textarea {
+            min-height: 44px;
 
-            background: var(--rubenspensky-input) !important;
-            color: var(--rubenspensky-text) !important;
+            background: var(--rs-input) !important;
+            color: var(--rs-text) !important;
 
-            border: 1px solid var(--rubenspensky-input-border) !important;
-            border-radius: 8px !important;
+            border: 1px solid var(--rs-border) !important;
+            border-radius: 0 !important;
 
-            box-shadow:
-              inset 0 1px 2px rgba(0, 0, 0, 0.28) !important;
+            box-shadow: none !important;
+
+            font-family: var(--rs-font-mono) !important;
+            caret-color: #ffffff;
 
             transition:
-              border-color 160ms ease,
-              box-shadow 160ms ease,
-              background-color 160ms ease !important;
-          }
+              border-color 100ms linear,
+              background-color 100ms linear !important;
+            }
 
-          .pf-c-form-control:hover,
-          .pf-v5-c-form-control:hover,
-          input:hover,
-          select:hover,
-          textarea:hover {
-            border-color: rgba(77, 175, 255, 0.48) !important;
-          }
+            .pf-c-form-control:hover,
+            .pf-v5-c-form-control:hover,
+            input:hover,
+            select:hover,
+            textarea:hover {
+            border-color: var(--rs-border-strong) !important;
+            }
 
-          .pf-c-form-control:focus,
-          .pf-v5-c-form-control:focus,
-          input:focus,
-          select:focus,
-          textarea:focus {
-            background: rgba(6, 17, 32, 0.98) !important;
+            .pf-c-form-control:focus,
+            .pf-v5-c-form-control:focus,
+            input:focus,
+            select:focus,
+            textarea:focus {
+            background: #000000 !important;
 
-            border-color: var(--rubenspensky-blue) !important;
+            border-color: #ffffff !important;
 
-            box-shadow:
-              0 0 0 1px var(--rubenspensky-blue),
-              0 0 0 4px rgba(22, 135, 255, 0.1),
-              0 0 16px rgba(22, 135, 255, 0.16) !important;
+            box-shadow: 0 0 0 1px #ffffff !important;
 
             outline: none !important;
-          }
+            }
 
-          /* ==========================================================
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover,
+            input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #ffffff !important;
+            -webkit-box-shadow: 0 0 0 1000px #050505 inset !important;
+            border: 1px solid #ffffff !important;
+            transition: background-color 9999s ease-out 0s;
+            }
+
+            /* ==========================================================
             Primary buttons
             ========================================================== */
 
-          .pf-c-button.pf-m-primary,
-          .pf-v5-c-button.pf-m-primary,
-          button[type="submit"] {
-            min-height: 42px;
+            .pf-c-button.pf-m-primary,
+            .pf-v5-c-button.pf-m-primary,
+            button[type="submit"] {
+            min-height: 44px;
 
-            background:
-              linear-gradient(
-                180deg,
-                #2e9cff 0%,
-                #1687ff 52%,
-                #0d6fd8 100%
-              ) !important;
+            background: #ffffff !important;
 
-            border: 1px solid rgba(118, 205, 255, 0.42) !important;
-            border-radius: 8px !important;
+            border: 2px solid #ffffff !important;
+            border-radius: 0 !important;
 
-            color: #ffffff !important;
-            font-weight: 650 !important;
+            color: #000000 !important;
+            font-family: var(--rs-font-mono) !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
 
-            box-shadow:
-              0 8px 22px rgba(0, 103, 219, 0.28),
-              inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 4px 4px 0 #525252 !important;
 
             transition:
-              transform 150ms ease,
-              filter 150ms ease,
-              box-shadow 150ms ease !important;
-          }
+              transform 80ms linear,
+              box-shadow 80ms linear,
+              background-color 80ms linear !important;
+            }
 
-          .pf-c-button.pf-m-primary:hover,
-          .pf-v5-c-button.pf-m-primary:hover,
-          button[type="submit"]:hover {
-            filter: brightness(1.08);
-            transform: translateY(-1px);
+            .pf-c-button.pf-m-primary:hover,
+            .pf-v5-c-button.pf-m-primary:hover,
+            button[type="submit"]:hover {
+            background: #d4d4d4 !important;
 
-            box-shadow:
-              0 11px 28px rgba(0, 126, 255, 0.34),
-              0 0 18px rgba(22, 135, 255, 0.15),
-              inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
-          }
+            transform: translate(2px, 2px);
 
-          .pf-c-button.pf-m-primary:active,
-          .pf-v5-c-button.pf-m-primary:active,
-          button[type="submit"]:active {
-            transform: translateY(0);
-            filter: brightness(0.97);
-          }
+            box-shadow: 2px 2px 0 #525252 !important;
+            }
 
-          .pf-c-button.pf-m-primary:focus,
-          .pf-v5-c-button.pf-m-primary:focus,
-          button[type="submit"]:focus {
-            box-shadow:
-              0 0 0 3px rgba(22, 135, 255, 0.24),
-              0 8px 22px rgba(0, 103, 219, 0.28) !important;
-          }
+            .pf-c-button.pf-m-primary:active,
+            .pf-v5-c-button.pf-m-primary:active,
+            button[type="submit"]:active {
+            transform: translate(4px, 4px);
 
-          /* ==========================================================
+            box-shadow: none !important;
+            }
+
+            .pf-c-button.pf-m-primary:focus-visible,
+            .pf-v5-c-button.pf-m-primary:focus-visible,
+            button[type="submit"]:focus-visible {
+            outline: 2px solid #ffffff !important;
+            outline-offset: 3px;
+            }
+
+            /* ==========================================================
             Secondary buttons
             ========================================================== */
 
-          .pf-c-button.pf-m-secondary,
-          .pf-v5-c-button.pf-m-secondary {
-            background: rgba(7, 18, 33, 0.72) !important;
+            .pf-c-button.pf-m-secondary,
+            .pf-v5-c-button.pf-m-secondary {
+            min-height: 42px;
 
-            color: var(--rubenspensky-blue-light) !important;
+            background: #0a0a0a !important;
 
-            border: 1px solid rgba(77, 175, 255, 0.35) !important;
-            border-radius: 8px !important;
-          }
+            color: #ffffff !important;
 
-          .pf-c-button.pf-m-secondary:hover,
-          .pf-v5-c-button.pf-m-secondary:hover {
-            background: rgba(22, 135, 255, 0.1) !important;
-            border-color: rgba(77, 175, 255, 0.6) !important;
-          }
+            border: 1px solid var(--rs-border-strong) !important;
+            border-radius: 0 !important;
 
-          /* ==========================================================
+            box-shadow: none !important;
+
+            font-family: var(--rs-font-mono) !important;
+            font-weight: 700 !important;
+            text-transform: uppercase;
+            }
+
+            .pf-c-button.pf-m-secondary:hover,
+            .pf-v5-c-button.pf-m-secondary:hover {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border-color: #ffffff !important;
+            }
+
+            /* ==========================================================
             Links
             ========================================================== */
 
-          a {
-            color: var(--pf-global--link--Color) !important;
-            text-decoration: none !important;
+            a {
+            color: #ffffff !important;
+            text-decoration: underline !important;
+            text-decoration-thickness: 1px !important;
+            text-underline-offset: 3px;
+
+            font-family: var(--rs-font-mono) !important;
 
             transition:
-              color 150ms ease,
-              text-shadow 150ms ease !important;
-          }
+              color 80ms linear,
+              background-color 80ms linear !important;
+            }
 
-          a:hover {
-            color: var(--pf-global--link--Color--hover) !important;
-            text-shadow: 0 0 10px rgba(79, 195, 255, 0.25);
-          }
+            a:hover {
+            background: #ffffff !important;
+            color: #000000 !important;
+            text-shadow: none !important;
+            }
 
-          /* ==========================================================
+            /* ==========================================================
+            Checkbox and radio controls
+            ========================================================== */
+
+            input[type="checkbox"],
+            input[type="radio"] {
+            min-height: auto;
+            accent-color: #ffffff;
+            border-radius: 0 !important;
+            }
+
+            /* ==========================================================
             Alerts and errors
             ========================================================== */
 
-          .pf-c-alert.pf-m-danger,
-          .pf-v5-c-alert.pf-m-danger,
-          .pf-c-helper-text.pf-m-error,
-          .pf-v5-c-helper-text.pf-m-error {
-            --pf-c-alert--m-danger--BorderTopColor: var(--rubenspensky-orange);
+            .pf-c-alert,
+            .pf-v5-c-alert {
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            font-family: var(--rs-font-mono) !important;
+            }
 
-            background: rgba(255, 90, 36, 0.08) !important;
+            .pf-c-alert.pf-m-danger,
+            .pf-v5-c-alert.pf-m-danger,
+            .pf-c-helper-text.pf-m-error,
+            .pf-v5-c-helper-text.pf-m-error {
+            --pf-c-alert--m-danger--BorderTopColor: #ffffff;
 
-            border: 1px solid rgba(255, 90, 36, 0.32) !important;
-            border-radius: 8px !important;
+            background: #0a0a0a !important;
 
-            color: #ffc0ab !important;
-          }
+            border: 2px solid #ffffff !important;
+            border-left-width: 8px !important;
+            border-radius: 0 !important;
 
-          /* Success alerts */
-          .pf-c-alert.pf-m-success,
-          .pf-v5-c-alert.pf-m-success {
-            background: rgba(32, 190, 125, 0.08) !important;
+            color: #ffffff !important;
+            }
 
-            border: 1px solid rgba(32, 190, 125, 0.32) !important;
-            border-radius: 8px !important;
+            .pf-c-alert.pf-m-success,
+            .pf-v5-c-alert.pf-m-success {
+            background: #ffffff !important;
 
-            color: #a4f3cf !important;
-          }
+            border: 2px solid #ffffff !important;
+            border-radius: 0 !important;
 
-          /* ==========================================================
+            color: #000000 !important;
+            }
+
+            /* ==========================================================
             Avatar
             ========================================================== */
 
-          .pf-c-avatar,
-          .pf-v5-c-avatar {
-            border: 2px solid rgba(22, 135, 255, 0.45);
+            .pf-c-avatar,
+            .pf-v5-c-avatar {
+            border: 2px solid #ffffff;
+            border-radius: 0 !important;
 
-            box-shadow:
-              0 0 12px rgba(22, 135, 255, 0.15);
-          }
+            filter: grayscale(1);
 
-          /* ==========================================================
-            Language selector
+            box-shadow: 4px 4px 0 #404040 !important;
+            }
+
+            /* ==========================================================
+            Language selector and menus
             ========================================================== */
 
-          .pf-c-select__toggle,
-          .pf-v5-c-menu-toggle {
-            background: rgba(8, 19, 35, 0.36) !important;
+            .pf-c-select__toggle,
+            .pf-v5-c-menu-toggle {
+            background: #0a0a0a !important;
 
-            border: 1px solid rgba(80, 140, 205, 0.2) !important;
-            border-radius: 8px !important;
+            border: 1px solid var(--rs-border) !important;
+            border-radius: 0 !important;
 
-            color: var(--rubenspensky-text-secondary) !important;
-          }
+            color: var(--rs-text-secondary) !important;
 
-          /* ==========================================================
+            font-family: var(--rs-font-mono) !important;
+            }
+
+            .pf-c-select__toggle:hover,
+            .pf-v5-c-menu-toggle:hover {
+            border-color: #ffffff !important;
+            }
+
+            .pf-c-select__menu,
+            .pf-v5-c-menu {
+            background: #0a0a0a !important;
+            border: 1px solid #ffffff !important;
+            border-radius: 0 !important;
+            box-shadow: 4px 4px 0 #000000 !important;
+            }
+
+            /* ==========================================================
+            Dividers
+            ========================================================== */
+
+            hr,
+            .pf-c-divider,
+            .pf-v5-c-divider {
+            border: 0 !important;
+            border-top: 1px solid var(--rs-border-subtle) !important;
+            }
+
+            /* ==========================================================
             Hide Powered by authentik
             ========================================================== */
 
-          .pf-c-login__footer,
-          .pf-v5-c-login__footer {
+            .pf-c-login__footer,
+            .pf-v5-c-login__footer {
             display: none !important;
-          }
+            }
 
-          /* Fallback for other footer structures */
-          footer a[href*="goauthentik"],
-          a[href*="goauthentik.io"] {
+            footer a[href*="goauthentik"],
+            a[href*="goauthentik.io"] {
             display: none !important;
-          }
+            }
 
-          /* ==========================================================
+            /* ==========================================================
             Scrollbar
             ========================================================== */
 
-          ::-webkit-scrollbar {
-            width: 9px;
-          }
+            ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+            }
 
-          ::-webkit-scrollbar-track {
-            background: #06101d;
-          }
+            ::-webkit-scrollbar-track {
+            background: #050505;
+            border-left: 1px solid #2d2d2d;
+            }
 
-          ::-webkit-scrollbar-thumb {
-            background: #1a4f83;
-            border-radius: 20px;
-          }
+            ::-webkit-scrollbar-thumb {
+            background: #525252;
+            border: 2px solid #050505;
+            border-radius: 0;
+            }
 
-          ::-webkit-scrollbar-thumb:hover {
-            background: #1687ff;
-          }
+            ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3;
+            }
 
-          /* ==========================================================
+            /* ==========================================================
             Mobile
             ========================================================== */
 
-          @media (max-width: 768px) {
+            @media (max-width: 768px) {
+            body {
+              background-size: 24px 24px !important;
+            }
+
             .pf-c-login__main,
             .pf-v5-c-login__main {
               width: calc(100% - 24px) !important;
 
-              margin: 12px !important;
+              margin: 44px 12px 12px !important;
 
-              border-radius: 15px !important;
+              border-radius: 0 !important;
+
+              box-shadow: 5px 5px 0 #000000 !important;
+            }
+
+            .pf-c-login__main::before,
+            .pf-v5-c-login__main::before {
+              content: "AUTH_GATEWAY // HOME_LAB";
+              font-size: 0.58rem;
+            }
+
+            .pf-c-login__main::after,
+            .pf-v5-c-login__main::after {
+              display: none;
             }
 
             .pf-c-login__main-header img,
             .pf-v5-c-login__main-header img {
               max-width: 230px !important;
-              max-height: 145px !important;
+              max-height: 140px !important;
             }
 
             .pf-c-login__main-body,
             .pf-v5-c-login__main-body {
-              padding-left: 1.1rem !important;
-              padding-right: 1.1rem !important;
+              padding-left: 1rem !important;
+              padding-right: 1rem !important;
             }
-          }
+            }
 
-          /* ==========================================================
+            /* ==========================================================
             Reduced motion
             ========================================================== */
 
-          @media (prefers-reduced-motion: reduce) {
+            @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
             *::after {
@@ -523,4 +650,4 @@ data:
               transition: none !important;
               animation: none !important;
             }
-          }
+            }
