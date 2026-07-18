@@ -10,7 +10,7 @@ kube-prometheus-stack:
 
     sidecar:
       dashboards:
-        enabled: true
+        enabled: false
         label: grafana_dashboard
         labelValue: "1"
         folderAnnotation: grafana_folder

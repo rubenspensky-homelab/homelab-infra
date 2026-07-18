@@ -1,0 +1,15 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: prometheus-stack-grafana
+  labels:
+    dashboards: prometheus-stack-grafana
+spec:
+  external:
+    url: http://prometheus-stack-grafana.monitoring.svc.cluster.local
+    adminUser:
+      name: prometheus-stack-grafana
+      key: admin-user
+    adminPassword:
+      name: prometheus-stack-grafana
+      key: admin-password

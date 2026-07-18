@@ -1,0 +1,10 @@
+apiVersion: v2
+name: grafana-operator-wrapper
+description: Wrapper chart for Grafana Operator in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: grafana-operator
+    version: 5.24.0
+    repository: https://grafana.github.io/helm-charts
