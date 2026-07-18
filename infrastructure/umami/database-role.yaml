@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: umami
+  namespace: databases
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  cluster:
+    name: homelab-postgres
+  name: umami
+  login: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: umami-db-auth

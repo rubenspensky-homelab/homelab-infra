@@ -1,0 +1,13 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: homelab-postgres-umami
+  namespace: databases
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  cluster:
+    name: homelab-postgres
+  name: umami
+  owner: umami
+  databaseReclaimPolicy: retain

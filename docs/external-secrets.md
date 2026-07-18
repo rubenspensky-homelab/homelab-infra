@@ -1,6 +1,11 @@
 # External Secrets Operator
 
-External Secrets Operator is installed with Helm through Argo CD. It uses a `ClusterSecretStore` named `aws-secrets-manager` configured for AWS Secrets Manager in `us-east-2`.
+External Secrets Operator is installed with Helm through Argo CD. It uses `ClusterSecretStore` resources for AWS-backed secrets in `us-east-2`.
+
+Configured stores:
+
+- `aws-secrets-manager`: AWS Secrets Manager
+- `aws-parameter-store`: AWS Systems Manager Parameter Store
 
 ## Argo CD Sync Order
 
@@ -48,6 +53,8 @@ The current infrastructure secret targets use alternate Kubernetes Secret names 
 | --- | --- | --- | --- |
 | `cloudflare-tunnel-token` | `cloudflare` | `homelab/infra/cloudflare-tunnel` | `tunnel-token-eso` |
 | `arc-github-app` | `arc-systems` | `homelab/infra/arc-github-app` | `arc-github-app-eso` |
+| `umami-db-auth` | `databases` | `/homelab/umamik` | `umami-db-auth` |
+| `umami-config` | `analytics` | `/homelab/umamik` | `umami-config` |
 
 After validation, change the generated Secret names to `tunnel-token` and `arc-github-app`, then remove the manually created Secrets.
 
@@ -68,5 +75,14 @@ Expected value for `homelab/infra/arc-github-app`:
   "github_app_id": "<github-app-id>",
   "github_app_installation_id": "<github-app-installation-id>",
   "github_app_private_key": "<github-app-private-key>"
+}
+```
+
+Expected JSON value for SSM Parameter Store parameter `/homelab/umamik`:
+
+```json
+{
+  "databasePassword": "<raw-postgres-password>",
+  "appSecret": "<umami-app-secret>"
 }
 ```

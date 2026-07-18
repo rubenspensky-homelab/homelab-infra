@@ -48,6 +48,7 @@ This repository defines the cluster infrastructure components managed by Argo CD
 | External Secrets Operator | Synchronizes Kubernetes secrets from AWS Secrets Manager |
 | Velero | Cluster backup and restore with S3-compatible object storage |
 | CloudNativePG | PostgreSQL operator and shared homelab PostgreSQL cluster |
+| Umami | Privacy-focused web analytics backed by the shared PostgreSQL cluster |
 
 ## Current Routing And Exposure
 
@@ -58,6 +59,7 @@ Current internal routes:
 - `grafana.home.lab`
 - `argocd.home.lab`
 - `auth.home.lab`
+- `umami.home.lab`
 
 Public exposure is handled through Cloudflare Tunnel. Cloudflare provides public TLS termination, so `cert-manager` is not currently required for the public access model.
 
