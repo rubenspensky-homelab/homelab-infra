@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: Homelab - Cleanup Legacy Demo Registration
+  labels:
+    blueprints.goauthentik.io/description: Remove pre-demo registration objects from the initial Authentik setup.
+
+entries:
+  - model: authentik_flows.flow
+    state: absent
+    identifiers:
+      slug: user-registration
+
+  - model: authentik_stages_prompt.prompt
+    state: absent
+    identifiers:
+      name: user-registration-field-email
+
+  - model: authentik_stages_prompt.prompt
+    state: absent
+    identifiers:
+      name: user-registration-field-username
+
+  - model: authentik_stages_prompt.prompt
+    state: absent
+    identifiers:
+      name: user-registration-field-password
+
+  - model: authentik_stages_prompt.promptstage
+    state: absent
+    identifiers:
+      name: user-registration-prompt-stage
+
+  - model: authentik_stages_user_write.userwritestage
+    state: absent
+    identifiers:
+      name: user-registration-user-write-stage
+
+  - model: authentik_stages_user_login.userloginstage
+    state: absent
+    identifiers:
+      name: user-registration-user-login-stage

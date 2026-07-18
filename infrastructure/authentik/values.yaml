@@ -7,8 +7,7 @@ mediaPersistence:
 authentik:
   blueprints:
     configMaps:
-      - authentik-brand-blueprints
-      - authentik-user-registration-blueprints
+      - authentik-blueprints
   global:
     envFrom:
       - secretRef:

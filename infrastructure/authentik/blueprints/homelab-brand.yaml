@@ -1,0 +1,639 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: Homelab Brand
+entries:
+  - model: authentik_brands.brand
+    state: present
+    identifiers:
+      domain: auth.rubenspensky.com
+    attrs:
+      default: false
+      branding_title: Rubenspensky Auth
+
+      branding_logo: >-
+        https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/favicon.png
+
+      branding_favicon: >-
+        https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/favicon.png
+
+      branding_default_flow_background: >-
+        https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/homelab-backrgound.png
+      flow_authentication: !Find
+        - authentik_flows.flow
+        - [slug, demo-authentication]
+      flow_enrollment: !Find
+        - authentik_flows.flow
+        - [slug, demo-user-registration]
+
+      branding_custom_css: |
+        /* ==========================================================
+        Rubenspensky Home Lab
+        Authentik Login Theme — Monochrome Neo-Brutalist
+        ========================================================== */
+
+        :root {
+        color-scheme: dark;
+
+        /* PatternFly / Authentik */
+        --pf-global--primary-color--100: #ffffff;
+        --pf-global--primary-color--200: #d4d4d4;
+        --pf-global--primary-color--300: #a3a3a3;
+
+        --pf-global--link--Color: #ffffff;
+        --pf-global--link--Color--hover: #d4d4d4;
+
+        /* Surfaces */
+        --rs-bg: #050505;
+        --rs-panel: #0a0a0a;
+        --rs-panel-raised: #111111;
+        --rs-input: #050505;
+        --rs-hover: #171717;
+
+        /* Text */
+        --rs-text: #ffffff;
+        --rs-text-secondary: #d4d4d4;
+        --rs-text-muted: #8a8a8a;
+        --rs-text-disabled: #5f5f5f;
+
+        /* Borders */
+        --rs-border-strong: #a3a3a3;
+        --rs-border: #525252;
+        --rs-border-subtle: #2d2d2d;
+
+        /* Status */
+        --rs-danger: #ffffff;
+        --rs-success: #ffffff;
+
+        /* Typography */
+        --rs-font-mono:
+          "JetBrains Mono",
+          "IBM Plex Mono",
+          "SFMono-Regular",
+          Consolas,
+          "Liberation Mono",
+          Menlo,
+          monospace;
+        }
+
+        /* ==========================================================
+        Reset and page
+        ========================================================== */
+
+        html,
+        body {
+        min-height: 100%;
+        color: var(--rs-text);
+        font-family: var(--rs-font-mono) !important;
+        }
+
+        body {
+        background-color: var(--rs-bg) !important;
+        background-image:
+          linear-gradient(var(--rs-border-subtle) 1px, transparent 1px),
+          linear-gradient(90deg, var(--rs-border-subtle) 1px, transparent 1px) !important;
+        background-size: 32px 32px !important;
+        background-position: -1px -1px !important;
+        }
+
+        *,
+        *::before,
+        *::after {
+        box-sizing: border-box;
+        }
+
+        ::selection {
+        background: #ffffff;
+        color: #000000;
+        }
+
+        /* ==========================================================
+        Main login card
+        ========================================================== */
+
+        .pf-c-login__main,
+        .pf-v5-c-login__main {
+        position: relative;
+
+        width: min(100%, 530px) !important;
+
+        background: var(--rs-panel) !important;
+
+        border: 2px solid var(--rs-border-strong) !important;
+        border-radius: 0 !important;
+
+        box-shadow: 8px 8px 0 #000000 !important;
+
+        overflow: visible;
+        }
+
+        /* Industrial top rail */
+        .pf-c-login__main::before,
+        .pf-v5-c-login__main::before {
+        content: "AUTH_GATEWAY // RUBENSPENSKY_HOME_LAB";
+
+        display: flex;
+        align-items: center;
+
+        min-height: 30px;
+        padding: 6px 10px;
+
+        position: absolute;
+        top: -32px;
+        left: -2px;
+        right: -2px;
+
+        background: #ffffff;
+        color: #000000;
+
+        border: 2px solid #ffffff;
+
+        font-family: var(--rs-font-mono);
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        line-height: 1;
+
+        pointer-events: none;
+        }
+
+        /* Small status marker */
+        .pf-c-login__main::after,
+        .pf-v5-c-login__main::after {
+        content: "● ONLINE";
+
+        position: absolute;
+        top: -25px;
+        right: 10px;
+
+        color: #000000;
+
+        font-family: var(--rs-font-mono);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+
+        pointer-events: none;
+        }
+
+        /* ==========================================================
+        Card spacing
+        ========================================================== */
+
+        .pf-c-login__main-body,
+        .pf-v5-c-login__main-body {
+        padding-top: 1.25rem !important;
+        padding-bottom: 1.5rem !important;
+        }
+
+        .pf-c-form,
+        .pf-v5-c-form {
+        gap: 1rem !important;
+        }
+
+        .pf-c-form__group,
+        .pf-v5-c-form__group {
+        margin-bottom: 1rem !important;
+        }
+
+        /* ==========================================================
+        Logo
+        ========================================================== */
+
+        .pf-c-login__main-header,
+        .pf-v5-c-login__main-header {
+        padding-bottom: 1rem !important;
+        border-bottom: 1px solid var(--rs-border-subtle);
+        }
+
+        .pf-c-login__main-header img,
+        .pf-v5-c-login__main-header img {
+        width: auto !important;
+        max-width: 280px !important;
+        max-height: 170px !important;
+
+        object-fit: contain;
+
+        filter: grayscale(1) contrast(1.1);
+        }
+
+        /* ==========================================================
+        Titles and text
+        ========================================================== */
+
+        .pf-c-title,
+        .pf-v5-c-title,
+        .pf-c-login__main-header,
+        .pf-v5-c-login__main-header,
+        h1,
+        h2,
+        h3 {
+        color: var(--rs-text) !important;
+        font-family: var(--rs-font-mono) !important;
+        }
+
+        .pf-c-title,
+        .pf-v5-c-title,
+        h1 {
+        font-weight: 700 !important;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+        }
+
+        .pf-c-title::before,
+        .pf-v5-c-title::before,
+        h1::before {
+        content: "> ";
+        color: var(--rs-text-muted);
+        }
+
+        p,
+        label,
+        .pf-c-form__label-text,
+        .pf-v5-c-form__label-text {
+        color: var(--rs-text-secondary) !important;
+        font-family: var(--rs-font-mono) !important;
+        }
+
+        .pf-c-form__label-text,
+        .pf-v5-c-form__label-text {
+        font-size: 0.75rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+        color: var(--rs-text-muted) !important;
+        opacity: 1;
+        }
+
+        .pf-c-helper-text,
+        .pf-v5-c-helper-text,
+        .pf-c-form__helper-text,
+        .pf-v5-c-form__helper-text {
+        color: var(--rs-text-muted) !important;
+        font-family: var(--rs-font-mono) !important;
+        font-size: 0.72rem !important;
+        }
+
+        /* ==========================================================
+        Inputs
+        ========================================================== */
+
+        .pf-c-form-control,
+        .pf-v5-c-form-control,
+        input,
+        select,
+        textarea {
+        min-height: 44px;
+
+        background: var(--rs-input) !important;
+        color: var(--rs-text) !important;
+
+        border: 1px solid var(--rs-border) !important;
+        border-radius: 0 !important;
+
+        box-shadow: none !important;
+
+        font-family: var(--rs-font-mono) !important;
+        caret-color: #ffffff;
+
+        transition:
+          border-color 100ms linear,
+          background-color 100ms linear !important;
+        }
+
+        .pf-c-form-control:hover,
+        .pf-v5-c-form-control:hover,
+        input:hover,
+        select:hover,
+        textarea:hover {
+        border-color: var(--rs-border-strong) !important;
+        }
+
+        .pf-c-form-control:focus,
+        .pf-v5-c-form-control:focus,
+        input:focus,
+        select:focus,
+        textarea:focus {
+        background: #000000 !important;
+
+        border-color: #ffffff !important;
+
+        box-shadow: 0 0 0 1px #ffffff !important;
+
+        outline: none !important;
+        }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+        -webkit-text-fill-color: #ffffff !important;
+        -webkit-box-shadow: 0 0 0 1000px #050505 inset !important;
+        border: 1px solid #ffffff !important;
+        transition: background-color 9999s ease-out 0s;
+        }
+
+        /* ==========================================================
+        Primary buttons
+        ========================================================== */
+
+        .pf-c-button.pf-m-primary,
+        .pf-v5-c-button.pf-m-primary,
+        button[type="submit"] {
+        min-height: 44px;
+
+        background: #ffffff !important;
+
+        border: 2px solid #ffffff !important;
+        border-radius: 0 !important;
+
+        color: #000000 !important;
+        font-family: var(--rs-font-mono) !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+
+        box-shadow: 4px 4px 0 #525252 !important;
+
+        transition:
+          transform 80ms linear,
+          box-shadow 80ms linear,
+          background-color 80ms linear !important;
+        }
+
+        .pf-c-button.pf-m-primary:hover,
+        .pf-v5-c-button.pf-m-primary:hover,
+        button[type="submit"]:hover {
+        background: #d4d4d4 !important;
+
+        transform: translate(2px, 2px);
+
+        box-shadow: 2px 2px 0 #525252 !important;
+        }
+
+        .pf-c-button.pf-m-primary:active,
+        .pf-v5-c-button.pf-m-primary:active,
+        button[type="submit"]:active {
+        transform: translate(4px, 4px);
+
+        box-shadow: none !important;
+        }
+
+        .pf-c-button.pf-m-primary:focus-visible,
+        .pf-v5-c-button.pf-m-primary:focus-visible,
+        button[type="submit"]:focus-visible {
+        outline: 2px solid #ffffff !important;
+        outline-offset: 3px;
+        }
+
+        /* ==========================================================
+        Secondary buttons
+        ========================================================== */
+
+        .pf-c-button.pf-m-secondary,
+        .pf-v5-c-button.pf-m-secondary {
+        min-height: 42px;
+
+        background: #0a0a0a !important;
+
+        color: #ffffff !important;
+
+        border: 1px solid var(--rs-border-strong) !important;
+        border-radius: 0 !important;
+
+        box-shadow: none !important;
+
+        font-family: var(--rs-font-mono) !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        }
+
+        .pf-c-button.pf-m-secondary:hover,
+        .pf-v5-c-button.pf-m-secondary:hover {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border-color: #ffffff !important;
+        }
+
+        /* ==========================================================
+        Links
+        ========================================================== */
+
+        a {
+        color: #ffffff !important;
+        text-decoration: underline !important;
+        text-decoration-thickness: 1px !important;
+        text-underline-offset: 3px;
+
+        font-family: var(--rs-font-mono) !important;
+
+        transition:
+          color 80ms linear,
+          background-color 80ms linear !important;
+        }
+
+        a:hover {
+        background: #ffffff !important;
+        color: #000000 !important;
+        text-shadow: none !important;
+        }
+
+        /* ==========================================================
+        Checkbox and radio controls
+        ========================================================== */
+
+        input[type="checkbox"],
+        input[type="radio"] {
+        min-height: auto;
+        accent-color: #ffffff;
+        border-radius: 0 !important;
+        }
+
+        /* ==========================================================
+        Alerts and errors
+        ========================================================== */
+
+        .pf-c-alert,
+        .pf-v5-c-alert {
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        font-family: var(--rs-font-mono) !important;
+        }
+
+        .pf-c-alert.pf-m-danger,
+        .pf-v5-c-alert.pf-m-danger,
+        .pf-c-helper-text.pf-m-error,
+        .pf-v5-c-helper-text.pf-m-error {
+        --pf-c-alert--m-danger--BorderTopColor: #ffffff;
+
+        background: #0a0a0a !important;
+
+        border: 2px solid #ffffff !important;
+        border-left-width: 8px !important;
+        border-radius: 0 !important;
+
+        color: #ffffff !important;
+        }
+
+        .pf-c-alert.pf-m-success,
+        .pf-v5-c-alert.pf-m-success {
+        background: #ffffff !important;
+
+        border: 2px solid #ffffff !important;
+        border-radius: 0 !important;
+
+        color: #000000 !important;
+        }
+
+        /* ==========================================================
+        Avatar
+        ========================================================== */
+
+        .pf-c-avatar,
+        .pf-v5-c-avatar {
+        border: 2px solid #ffffff;
+        border-radius: 0 !important;
+
+        filter: grayscale(1);
+
+        box-shadow: 4px 4px 0 #404040 !important;
+        }
+
+        /* ==========================================================
+        Language selector and menus
+        ========================================================== */
+
+        .pf-c-select__toggle,
+        .pf-v5-c-menu-toggle {
+        background: #0a0a0a !important;
+
+        border: 1px solid var(--rs-border) !important;
+        border-radius: 0 !important;
+
+        color: var(--rs-text-secondary) !important;
+
+        font-family: var(--rs-font-mono) !important;
+        }
+
+        .pf-c-select__toggle:hover,
+        .pf-v5-c-menu-toggle:hover {
+        border-color: #ffffff !important;
+        }
+
+        .pf-c-select__menu,
+        .pf-v5-c-menu {
+        background: #0a0a0a !important;
+        border: 1px solid #ffffff !important;
+        border-radius: 0 !important;
+        box-shadow: 4px 4px 0 #000000 !important;
+        }
+
+        /* ==========================================================
+        Dividers
+        ========================================================== */
+
+        hr,
+        .pf-c-divider,
+        .pf-v5-c-divider {
+        border: 0 !important;
+        border-top: 1px solid var(--rs-border-subtle) !important;
+        }
+
+        /* ==========================================================
+        Hide Powered by authentik
+        ========================================================== */
+
+        .pf-c-login__footer,
+        .pf-v5-c-login__footer {
+        display: none !important;
+        }
+
+        footer a[href*="goauthentik"],
+        a[href*="goauthentik.io"] {
+        display: none !important;
+        }
+
+        /* ==========================================================
+        Scrollbar
+        ========================================================== */
+
+        ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+        background: #050505;
+        border-left: 1px solid #2d2d2d;
+        }
+
+        ::-webkit-scrollbar-thumb {
+        background: #525252;
+        border: 2px solid #050505;
+        border-radius: 0;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+        background: #a3a3a3;
+        }
+
+        /* ==========================================================
+        Mobile
+        ========================================================== */
+
+        @media (max-width: 768px) {
+        body {
+          background-size: 24px 24px !important;
+        }
+
+        .pf-c-login__main,
+        .pf-v5-c-login__main {
+          width: calc(100% - 24px) !important;
+
+          margin: 44px 12px 12px !important;
+
+          border-radius: 0 !important;
+
+          box-shadow: 5px 5px 0 #000000 !important;
+        }
+
+        .pf-c-login__main::before,
+        .pf-v5-c-login__main::before {
+          content: "AUTH_GATEWAY // HOME_LAB";
+          font-size: 0.58rem;
+        }
+
+        .pf-c-login__main::after,
+        .pf-v5-c-login__main::after {
+          display: none;
+        }
+
+        .pf-c-login__main-header img,
+        .pf-v5-c-login__main-header img {
+          max-width: 230px !important;
+          max-height: 140px !important;
+        }
+
+        .pf-c-login__main-body,
+        .pf-v5-c-login__main-body {
+          padding-left: 1rem !important;
+          padding-right: 1rem !important;
+        }
+        }
+
+        /* ==========================================================
+        Reduced motion
+        ========================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+        }

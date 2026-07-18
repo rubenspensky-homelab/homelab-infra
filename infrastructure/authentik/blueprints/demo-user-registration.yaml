@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: Homelab - Demo User Registration Flow
+  labels:
+    blueprints.goauthentik.io/description: Public self-registration enrollment flow for demo application users.
+
+entries:
+  - model: authentik_flows.flow
+    state: present
+    id: demo-user-registration-flow
+    identifiers:
+      slug: demo-user-registration
+    attrs:
+      name: demo-user-registration
+      title: Create your demo account
+      designation: enrollment
+      authentication: require_unauthenticated
+      compatibility_mode: true
+
+  - model: authentik_stages_prompt.prompt
+    state: present
+    id: demo-user-registration-prompt-email
+    identifiers:
+      name: demo-user-registration-field-email
+    attrs:
+      field_key: email
+      label: Email
+      type: email
+      required: true
+      placeholder: Email
+      placeholder_expression: false
+      order: 0
+
+  - model: authentik_stages_prompt.prompt
+    state: present
+    id: demo-user-registration-prompt-username
+    identifiers:
+      name: demo-user-registration-field-username
+    attrs:
+      field_key: username
+      label: Username
+      type: username
+      required: true
+      placeholder: Username
+      placeholder_expression: false
+      order: 1
+
+  - model: authentik_stages_prompt.prompt
+    state: present
+    id: demo-user-registration-prompt-password
+    identifiers:
+      name: demo-user-registration-field-password
+    attrs:
+      field_key: password
+      label: Password
+      type: password
+      required: true
+      placeholder: Password
+      placeholder_expression: false
+      order: 2
+
+  - model: authentik_stages_prompt.promptstage
+    state: present
+    id: demo-user-registration-prompt-stage
+    identifiers:
+      name: demo-user-registration-prompt-stage
+    attrs:
+      fields:
+        - !KeyOf demo-user-registration-prompt-email
+        - !KeyOf demo-user-registration-prompt-username
+        - !KeyOf demo-user-registration-prompt-password
+
+  - model: authentik_stages_user_write.userwritestage
+    state: present
+    id: demo-user-registration-user-write-stage
+    identifiers:
+      name: demo-user-registration-user-write-stage
+    attrs:
+      user_creation_mode: always_create
+      create_users_as_inactive: false
+      create_users_group: !Find
+        - authentik_core.group
+        - [name, demo-users]
+      user_type: internal
+
+  - model: authentik_stages_user_login.userloginstage
+    state: present
+    id: demo-user-registration-user-login-stage
+    identifiers:
+      name: demo-user-registration-user-login-stage
+
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !KeyOf demo-user-registration-flow
+      stage: !KeyOf demo-user-registration-prompt-stage
+      order: 10
+    attrs:
+      re_evaluate_policies: true
+
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !KeyOf demo-user-registration-flow
+      stage: !KeyOf demo-user-registration-user-write-stage
+      order: 20
+
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !KeyOf demo-user-registration-flow
+      stage: !KeyOf demo-user-registration-user-login-stage
+      order: 30

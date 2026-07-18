@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authentik-blueprints
+data:
+  00-cleanup-legacy.yaml: |
+{{ .Files.Get "blueprints/cleanup-legacy.yaml" | indent 4 }}
+  10-demo-users.yaml: |
+{{ .Files.Get "blueprints/demo-users.yaml" | indent 4 }}
+  20-demo-user-registration.yaml: |
+{{ .Files.Get "blueprints/demo-user-registration.yaml" | indent 4 }}
+  30-demo-authentication.yaml: |
+{{ .Files.Get "blueprints/demo-authentication.yaml" | indent 4 }}
+  40-homelab-brand.yaml: |
+{{ .Files.Get "blueprints/homelab-brand.yaml" | indent 4 }}

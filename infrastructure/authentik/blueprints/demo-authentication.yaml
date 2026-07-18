@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: Homelab - Demo Authentication Flow
+  labels:
+    blueprints.goauthentik.io/description: Authentication flow for demo users with public registration link.
+
+entries:
+  - model: authentik_flows.flow
+    state: present
+    id: demo-authentication-flow
+    identifiers:
+      slug: demo-authentication
+    attrs:
+      name: demo-authentication
+      title: Sign in
+      designation: authentication
+      authentication: require_unauthenticated
+      compatibility_mode: true
+
+  - model: authentik_stages_password.passwordstage
+    state: present
+    id: demo-authentication-password-stage
+    identifiers:
+      name: demo-authentication-password-stage
+    attrs:
+      backends:
+        - authentik.core.auth.InbuiltBackend
+      allow_show_password: true
+
+  - model: authentik_stages_identification.identificationstage
+    state: present
+    id: demo-authentication-identification-stage
+    identifiers:
+      name: demo-authentication-identification-stage
+    attrs:
+      user_fields:
+        - email
+        - username
+      password_stage: !KeyOf demo-authentication-password-stage
+      enrollment_flow: !Find
+        - authentik_flows.flow
+        - [slug, demo-user-registration]
+      case_insensitive_matching: true
+      show_matched_user: true
+
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !KeyOf demo-authentication-flow
+      stage: !KeyOf demo-authentication-identification-stage
+      order: 10
+    attrs:
+      re_evaluate_policies: true
