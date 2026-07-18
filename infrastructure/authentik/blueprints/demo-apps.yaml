@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
-  name: Homelab - Demo Apps v1
+  name: Homelab - Demo Apps v2
   labels:
     blueprints.goauthentik.io/description: OIDC applications for demo users.
 
@@ -22,6 +22,9 @@ entries:
       invalidation_flow: !Find
         - authentik_flows.flow
         - [slug, default-provider-invalidation-flow]
+      signing_key: !Find
+        - authentik_crypto.certificatekeypair
+        - [name, authentik Self-signed Certificate]
       property_mappings:
         - !Find
           - authentik_providers_oauth2.scopemapping
@@ -52,7 +55,6 @@ entries:
           redirect_uri_type: authorization
       include_claims_in_id_token: true
       sub_mode: user_uuid
-      issuer_mode: global
 
   - model: authentik_core.application
     state: present
