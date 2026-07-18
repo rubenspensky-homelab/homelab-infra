@@ -1,8 +1,169 @@
 # yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
-  name: Homelab Brand
+  name: Homelab - Demo Access
+  labels:
+    blueprints.goauthentik.io/description: Demo user group, registration, authentication, and brand flow selection.
 entries:
+  - model: authentik_core.group
+    state: present
+    id: demo-users-group
+    identifiers:
+      name: demo-users
+    attrs:
+      name: demo-users
+      is_superuser: false
+
+  - model: authentik_flows.flow
+    state: present
+    id: demo-user-registration-flow
+    identifiers:
+      slug: demo-user-registration
+    attrs:
+      name: demo-user-registration
+      title: Create your demo account
+      designation: enrollment
+      authentication: require_unauthenticated
+      compatibility_mode: true
+
+  - model: authentik_stages_prompt.prompt
+    state: present
+    id: demo-user-registration-prompt-email
+    identifiers:
+      name: demo-user-registration-field-email
+    attrs:
+      field_key: email
+      label: Email
+      type: email
+      required: true
+      placeholder: Email
+      placeholder_expression: false
+      order: 0
+
+  - model: authentik_stages_prompt.prompt
+    state: present
+    id: demo-user-registration-prompt-username
+    identifiers:
+      name: demo-user-registration-field-username
+    attrs:
+      field_key: username
+      label: Username
+      type: username
+      required: true
+      placeholder: Username
+      placeholder_expression: false
+      order: 1
+
+  - model: authentik_stages_prompt.prompt
+    state: present
+    id: demo-user-registration-prompt-password
+    identifiers:
+      name: demo-user-registration-field-password
+    attrs:
+      field_key: password
+      label: Password
+      type: password
+      required: true
+      placeholder: Password
+      placeholder_expression: false
+      order: 2
+
+  - model: authentik_stages_prompt.promptstage
+    state: present
+    id: demo-user-registration-prompt-stage
+    identifiers:
+      name: demo-user-registration-prompt-stage
+    attrs:
+      fields:
+        - !KeyOf demo-user-registration-prompt-email
+        - !KeyOf demo-user-registration-prompt-username
+        - !KeyOf demo-user-registration-prompt-password
+
+  - model: authentik_stages_user_write.userwritestage
+    state: present
+    id: demo-user-registration-user-write-stage
+    identifiers:
+      name: demo-user-registration-user-write-stage
+    attrs:
+      user_creation_mode: always_create
+      create_users_as_inactive: false
+      create_users_group: !KeyOf demo-users-group
+      user_type: internal
+
+  - model: authentik_stages_user_login.userloginstage
+    state: present
+    id: demo-user-registration-user-login-stage
+    identifiers:
+      name: demo-user-registration-user-login-stage
+
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !KeyOf demo-user-registration-flow
+      stage: !KeyOf demo-user-registration-prompt-stage
+      order: 10
+    attrs:
+      re_evaluate_policies: true
+
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !KeyOf demo-user-registration-flow
+      stage: !KeyOf demo-user-registration-user-write-stage
+      order: 20
+
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !KeyOf demo-user-registration-flow
+      stage: !KeyOf demo-user-registration-user-login-stage
+      order: 30
+
+  - model: authentik_flows.flow
+    state: present
+    id: demo-authentication-flow
+    identifiers:
+      slug: demo-authentication
+    attrs:
+      name: demo-authentication
+      title: Sign in
+      designation: authentication
+      authentication: require_unauthenticated
+      compatibility_mode: true
+
+  - model: authentik_stages_password.passwordstage
+    state: present
+    id: demo-authentication-password-stage
+    identifiers:
+      name: demo-authentication-password-stage
+    attrs:
+      backends:
+        - authentik.core.auth.InbuiltBackend
+      allow_show_password: true
+
+  - model: authentik_stages_identification.identificationstage
+    state: present
+    id: demo-authentication-identification-stage
+    identifiers:
+      name: demo-authentication-identification-stage
+    attrs:
+      user_fields:
+        - email
+        - username
+      password_stage: !KeyOf demo-authentication-password-stage
+      enrollment_flow: !KeyOf demo-user-registration-flow
+      case_insensitive_matching: true
+      show_matched_user: true
+
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !KeyOf demo-authentication-flow
+      stage: !KeyOf demo-authentication-identification-stage
+      order: 10
+    attrs:
+      re_evaluate_policies: true
+
   - model: authentik_brands.brand
     state: present
     identifiers:
@@ -19,12 +180,7 @@ entries:
 
       branding_default_flow_background: >-
         https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/homelab-backrgound.png
-      flow_authentication: !Find
-        - authentik_flows.flow
-        - [slug, demo-authentication]
-      flow_enrollment: !Find
-        - authentik_flows.flow
-        - [slug, demo-user-registration]
+      flow_authentication: !KeyOf demo-authentication-flow
 
       branding_custom_css: |
         /* ==========================================================
