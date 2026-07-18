@@ -399,8 +399,7 @@ entries:
         .pf-c-title::before,
         .pf-v5-c-title::before,
         h1::before {
-        content: "> ";
-        color: var(--rs-text-muted);
+        content: "";
         }
 
         p,
@@ -664,25 +663,34 @@ entries:
 
         .pf-c-select__toggle,
         .pf-v5-c-menu-toggle {
-        background: #0a0a0a !important;
+        min-height: 34px !important;
+        padding: 0.35rem 0.65rem !important;
 
-        border: 1px solid var(--rs-border) !important;
+        background: rgba(5, 5, 5, 0.72) !important;
+
+        border: 1px solid var(--rs-border-subtle) !important;
         border-radius: 0 !important;
 
-        color: var(--rs-text-secondary) !important;
+        color: var(--rs-text-muted) !important;
 
         font-family: var(--rs-font-mono) !important;
+        font-size: 0.82rem !important;
+        letter-spacing: 0.02em;
+
+        box-shadow: none !important;
         }
 
         .pf-c-select__toggle:hover,
         .pf-v5-c-menu-toggle:hover {
-        border-color: #ffffff !important;
+        background: #0a0a0a !important;
+        border-color: var(--rs-border-strong) !important;
+        color: var(--rs-text-secondary) !important;
         }
 
         .pf-c-select__menu,
         .pf-v5-c-menu {
         background: #0a0a0a !important;
-        border: 1px solid #ffffff !important;
+        border: 1px solid var(--rs-border-strong) !important;
         border-radius: 0 !important;
         box-shadow: 4px 4px 0 #000000 !important;
         }
