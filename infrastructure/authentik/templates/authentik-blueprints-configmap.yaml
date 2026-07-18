@@ -7,3 +7,5 @@ data:
 {{ .Files.Get "blueprints/cleanup-legacy.yaml" | indent 4 }}
   10-demo-access-v2.yaml: |
 {{ .Files.Get "blueprints/demo-access.yaml" | indent 4 }}
+  20-demo-apps.yaml: |
+{{ .Files.Get "blueprints/demo-apps.yaml" | indent 4 }}
