@@ -44,6 +44,12 @@ entries:
         - matching_mode: strict
           url: http://localhost:5173/auth/callback
           redirect_uri_type: authorization
+        - matching_mode: strict
+          url: https://ts-backend-demo.rubenspensky.com/docs
+          redirect_uri_type: authorization
+        - matching_mode: strict
+          url: http://localhost:3000/docs
+          redirect_uri_type: authorization
       include_claims_in_id_token: true
       sub_mode: user_uuid
       issuer_mode: global

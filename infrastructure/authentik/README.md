@@ -79,9 +79,46 @@ Launch URL: https://frontend-demo.rubenspensky.com
 Redirect URIs:
 - https://frontend-demo.rubenspensky.com/auth/callback
 - http://localhost:5173/auth/callback
+- https://ts-backend-demo.rubenspensky.com/docs
+- http://localhost:3000/docs
 ```
 
 The application has a group policy binding for `demo-users`.
+
+Frontend development values:
+
+```env
+VITE_OIDC_AUTHORITY=https://auth.rubenspensky.com/application/o/frontend-demo/
+VITE_OIDC_CLIENT_ID=frontend-demo
+VITE_OIDC_REDIRECT_URI=http://localhost:5173/auth/callback
+VITE_OIDC_POST_LOGOUT_REDIRECT_URI=http://localhost:5173/
+VITE_OIDC_SCOPE=openid profile email
+```
+
+Backend API validation values:
+
+```env
+AUTH_PROVIDER=oidc
+AUTH_ISSUER=https://auth.rubenspensky.com/application/o/frontend-demo/
+AUTH_JWKS_URL=https://auth.rubenspensky.com/application/o/frontend-demo/jwks/
+AUTH_AUDIENCE=frontend-demo
+```
+
+Scalar/docs local OAuth values:
+
+```env
+DOCS_OAUTH_CLIENT_ID=frontend-demo
+DOCS_OAUTH_AUTHORIZATION_URL=http://localhost:3000/docs/oauth/authorize
+DOCS_OAUTH_UPSTREAM_AUTHORIZATION_URL=https://auth.rubenspensky.com/application/o/authorize/
+DOCS_OAUTH_TOKEN_URL=https://auth.rubenspensky.com/application/o/token/
+DOCS_OAUTH_REDIRECT_URI=http://localhost:3000/docs
+```
+
+Scalar/docs public OAuth redirect URI:
+
+```env
+DOCS_OAUTH_REDIRECT_URI=https://ts-backend-demo.rubenspensky.com/docs
+```
 
 The demo access objects are intentionally in one blueprint file because Authentik does not guarantee import order between separate mounted blueprint files. Keeping these dependent objects together allows stable `!KeyOf` references.
 
