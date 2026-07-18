@@ -5,5 +5,5 @@ metadata:
 data:
   00-cleanup-legacy.yaml: |
 {{ .Files.Get "blueprints/cleanup-legacy.yaml" | indent 4 }}
-  10-demo-access.yaml: |
+  10-demo-access-v2.yaml: |
 {{ .Files.Get "blueprints/demo-access.yaml" | indent 4 }}

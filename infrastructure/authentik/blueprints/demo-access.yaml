@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
-  name: Homelab - Demo Access
+  name: Homelab - Demo Access v2
   labels:
     blueprints.goauthentik.io/description: Demo user group, registration, authentication, and brand flow selection.
 entries:
