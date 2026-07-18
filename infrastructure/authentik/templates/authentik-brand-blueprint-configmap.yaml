@@ -16,8 +16,7 @@ data:
           default: false
           branding_title: Homelab Lab Auth
           branding_custom_css: |
-            :root {
-              --pf-global--primary-color--100: #0f766e;
+            :root { --pf-global--primary-color--100: #0f766e;
               --pf-global--primary-color--200: #115e59;
               --pf-global--link--Color: #14b8a6;
             }
@@ -38,8 +37,21 @@ data:
         identifiers:
           domain: auth.rubenspensky.com
         attrs:
-          default: true
+          default: false
           branding_title: Rubenspensky Auth
+
+          branding_logo: >-
+          https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/favicon.png
+
+          branding_favicon: >-
+            https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/favicon.png
+
+          branding_default_flow_background: >-
+            https://raw.githubusercontent.com/rubenspensky-homelab/homelab-infra/main/infrastructure/authentik/assets/homelab-backrgound.png
+          flow_enrollment: !Find
+            - authentik_flows.flow
+            - [slug, user-registration]
+
           branding_custom_css: |
             /* ==========================================================
             Rubenspensky Home Lab
