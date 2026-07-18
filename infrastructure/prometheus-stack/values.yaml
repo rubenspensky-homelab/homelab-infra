@@ -3,7 +3,22 @@ kube-prometheus-stack:
 
   grafana:
     enabled: true
-    adminPassword: admin
+
+    admin:
+      existingSecret: grafana-admin-credentials
+      userKey: admin-user
+      passwordKey: admin-password
+
+    envFromSecret: grafana-database-credentials
+
+    grafana.ini:
+      database:
+        type: postgres
+        host: homelab-postgres-rw.databases.svc.cluster.local:5432
+        name: grafana
+        user: $__env{GF_DATABASE_USER}
+        password: $__env{GF_DATABASE_PASSWORD}
+        ssl_mode: disable
 
     service:
       type: ClusterIP

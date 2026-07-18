@@ -8,8 +8,8 @@ spec:
   external:
     url: http://prometheus-stack-grafana.monitoring.svc.cluster.local
     adminUser:
-      name: prometheus-stack-grafana
+      name: grafana-admin-credentials
       key: admin-user
     adminPassword:
-      name: prometheus-stack-grafana
+      name: grafana-admin-credentials
       key: admin-password
