@@ -99,10 +99,23 @@ Backend API validation values:
 
 ```env
 AUTH_PROVIDER=oidc
-AUTH_ISSUER=https://auth.rubenspensky.com/application/o/frontend-demo/
+AUTH_ISSUER=https://auth.rubenspensky.com/
 AUTH_JWKS_URL=https://auth.rubenspensky.com/application/o/frontend-demo/jwks/
 AUTH_AUDIENCE=frontend-demo
 ```
+
+The `frontend-demo` provider currently uses Authentik's global issuer mode. The
+OIDC discovery and JWKS endpoints are still scoped to the application slug, but
+the JWT `iss` claim is the Authentik root URL:
+
+```text
+Discovery: https://auth.rubenspensky.com/application/o/frontend-demo/.well-known/openid-configuration
+JWKS: https://auth.rubenspensky.com/application/o/frontend-demo/jwks/
+Issuer claim: https://auth.rubenspensky.com/
+Audience claim: frontend-demo
+```
+
+Backends must validate the token signature, issuer, audience, and expiration.
 
 Scalar/docs local OAuth values:
 
