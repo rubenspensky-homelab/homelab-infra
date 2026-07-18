@@ -47,6 +47,7 @@ This repository defines the cluster infrastructure components managed by Argo CD
 | CDI | Containerized Data Importer for importing VM disk images into PVCs |
 | External Secrets Operator | Synchronizes Kubernetes secrets from AWS Secrets Manager |
 | Velero | Cluster backup and restore with S3-compatible object storage |
+| CloudNativePG | PostgreSQL operator and shared homelab PostgreSQL cluster |
 
 ## Current Routing And Exposure
 

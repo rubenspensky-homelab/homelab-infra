@@ -1,0 +1,10 @@
+apiVersion: v2
+name: cloudnative-pg-wrapper
+description: Wrapper chart for CloudNativePG in the homelab cluster
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: cloudnative-pg
+    version: 0.29.0
+    repository: https://cloudnative-pg.github.io/charts
