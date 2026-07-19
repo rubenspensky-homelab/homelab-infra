@@ -17,6 +17,15 @@ spec:
         - path:
             type: PathPrefix
             value: /
+      filters:
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            remove:
+              - X-Frame-Options
+              - Content-Security-Policy
+            set:
+              - name: Content-Security-Policy
+                value: "frame-ancestors 'self' http://localhost:5173 https://frontend-demo.rubenspensky.com;"
       backendRefs:
         - name: umami
           port: 80
