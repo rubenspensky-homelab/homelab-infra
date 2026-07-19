@@ -9,6 +9,7 @@ spec:
       namespace: routing
   hostnames:
     - grafana.home.lab
+    - grafana.rubenspensky.com
   rules:
     - backendRefs:
         - name: prometheus-stack-grafana
