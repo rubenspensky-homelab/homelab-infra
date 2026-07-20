@@ -4,7 +4,7 @@ metadata:
   name: arc-controller-crds
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+    argocd.argoproj.io/sync-wave: "-9"
 spec:
   project: default
 

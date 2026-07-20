@@ -9,12 +9,16 @@ Configured stores:
 
 ## Argo CD Sync Order
 
-Argo CD sync waves apply the resources in dependency order:
+Argo CD sync waves express the intended dependency order:
 
-1. `external-secrets-crds`: installs the External Secrets CRDs with server-side apply.
-2. `external-secrets`: installs the operator with Helm.
-3. `external-secrets-store`: creates the AWS Secrets Manager `ClusterSecretStore`.
-4. `infra-secrets`: creates infrastructure `ExternalSecret` resources that generate Kubernetes Secrets.
+1. Wave `-9`: `external-secrets-crds` installs the CRDs with server-side apply.
+2. Wave `-8`: `external-secrets` installs the operator with Helm.
+3. Wave `-7`: `external-secrets-store` creates both AWS `ClusterSecretStore` resources.
+4. Later applications create their own `ExternalSecret` resources.
+
+Waves order the Argo CD `Application` resources but do not prove that an AWS
+store is ready or that a generated Kubernetes Secret already exists. Check the
+resource conditions when troubleshooting a consumer.
 
 ## AWS Credentials Secret
 
@@ -34,33 +38,42 @@ stringData:
 
 ## Manual Refresh
 
-The infrastructure `ExternalSecret` resources use `refreshInterval: 0`, so they do not poll AWS Secrets Manager periodically after syncing. To force a refresh, update the `external-secrets.io/force-sync` annotation with a new value:
+The infrastructure `ExternalSecret` resources use `refreshPolicy: CreatedOnce`,
+so changing a remote value or a force-sync annotation does not update an existing
+target Secret. During a planned rotation, update the remote value, delete the
+generated Secret, and wait for External Secrets Operator to recreate it:
 
 ```bash
-kubectl annotate externalsecret cloudflare-tunnel-token \
+kubectl delete secret tunnel-token -n cloudflare
+kubectl wait externalsecret/cloudflare-tunnel-token \
   -n cloudflare \
-  external-secrets.io/force-sync=$(date +%s) \
-  --overwrite
+  --for=condition=Ready \
+  --timeout=60s
 ```
 
-For a GitOps-driven refresh, change the same annotation value in Git and let Argo CD sync it.
+Restart or reload the consumer if it does not watch Secret changes. Database
+credential rotation must also update the database role and should be handled in
+a maintenance window. Do not delete a generated Secret until its remote value
+and recovery procedure have been verified.
 
 ## Infrastructure Secrets
 
-The current infrastructure secret targets use alternate Kubernetes Secret names so they can be tested before replacing the manually created Secrets:
-
-| ExternalSecret | Namespace | AWS Secrets Manager key | Generated Kubernetes Secret |
+| ExternalSecret | Namespace | AWS remote key | Generated Kubernetes Secret |
 | --- | --- | --- | --- |
-| `cloudflare-tunnel-token` | `cloudflare` | `homelab/infra/cloudflare-tunnel` | `tunnel-token-eso` |
-| `arc-github-app` | `arc-systems` | `homelab/infra/arc-github-app` | `arc-github-app-eso` |
+| `cloudflare-tunnel-token` | `cloudflare` | `homelab/cloudflare/tunnel-token` | `tunnel-token` |
+| `arc-github-app` | `arc-systems` | `homelab/github/arc-app` | `arc-github-app` |
 | `umami-db-auth` | `databases` | `/homelab/umamik` | `umami-db-auth` |
 | `umami-config` | `analytics` | `/homelab/umamik` | `umami-config` |
-
-After validation, change the generated Secret names to `tunnel-token` and `arc-github-app`, then remove the manually created Secrets.
+| `authentik-db-auth` | `databases` | `/homelab/authentik` | `authentik-db-auth` |
+| `authentik-config` | `authentik` | `/homelab/authentik` | `authentik-config` |
+| `grafana-db-auth` | `databases` | `/homelab/grafana` | `grafana-db-auth` |
+| `grafana-database-credentials` | `monitoring` | `/homelab/grafana` | `grafana-database-credentials` |
+| `grafana-admin-credentials` | `monitoring` | `/homelab/grafana` | `grafana-admin-credentials` |
+| `aws-s3-backup` | `velero` | `homelab/aws/s3-backup` | `aws-s3-backup` |
 
 ## AWS Secrets Manager Values
 
-Expected value for `homelab/infra/cloudflare-tunnel`:
+Expected value for `homelab/cloudflare/tunnel-token`:
 
 ```json
 {
@@ -68,7 +81,7 @@ Expected value for `homelab/infra/cloudflare-tunnel`:
 }
 ```
 
-Expected value for `homelab/infra/arc-github-app`:
+Expected value for `homelab/github/arc-app`:
 
 ```json
 {

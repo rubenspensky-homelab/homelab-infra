@@ -1,21 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cdi
+  name: prometheus-crds
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "-9"
 spec:
   project: default
 
   source:
     repoURL: https://github.com/rubenspensky-homelab/homelab-infra.git
     targetRevision: main
-    path: infrastructure/cdi
+    path: infrastructure/prometheus-crds
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: cdi
+    namespace: monitoring
 
   syncPolicy:
     automated:
@@ -24,4 +24,3 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-      - SkipDryRunOnMissingResource=true

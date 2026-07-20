@@ -4,7 +4,7 @@ metadata:
   name: cloudflare-tunnel
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   project: default
 

@@ -1,0 +1,16 @@
+data:
+  # Child Application health depends on status changes reaching the root app.
+  resource.customizations.ignoreResourceUpdates.all: null
+  resource.customizations: |
+    argoproj.io/Application:
+      health.lua: |
+        hs = {}
+        hs.status = "Progressing"
+        hs.message = "Waiting for child application status"
+        if obj.status ~= nil and obj.status.health ~= nil then
+          hs.status = obj.status.health.status
+          if obj.status.health.message ~= nil then
+            hs.message = obj.status.health.message
+          end
+        end
+        return hs

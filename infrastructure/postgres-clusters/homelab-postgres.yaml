@@ -6,7 +6,7 @@ metadata:
 spec:
   description: Shared PostgreSQL cluster for homelab platform services
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:17
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.10@sha256:d548fc6aa21639df474d7e866abe0f44a280a67b3c0c005b5c2177ca189bb5c9
 
   storage:
     size: 20Gi

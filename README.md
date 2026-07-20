@@ -34,6 +34,7 @@ This repository defines the cluster infrastructure components managed by Argo CD
 | Authentik | Identity provider and SSO for cluster services |
 | local-path-provisioner | Default local storage provisioner |
 | metrics-server | Kubernetes resource metrics API |
+| Prometheus Operator CRDs | Installs monitoring APIs before their consumers |
 | kube-prometheus-stack | Prometheus, Grafana, Alertmanager, kube-state-metrics, and node-exporter |
 | Loki | Log storage backend |
 | Tempo | Trace storage backend |
@@ -43,8 +44,6 @@ This repository defines the cluster infrastructure components managed by Argo CD
 | BuildKit | Remote build service with persistent cache |
 | NVIDIA Device Plugin | Advertises NVIDIA GPUs to Kubernetes workloads |
 | NVIDIA DCGM Exporter | Exposes NVIDIA GPU metrics to Prometheus |
-| KubeVirt | Kubernetes-native virtualization for running virtual machines |
-| CDI | Containerized Data Importer for importing VM disk images into PVCs |
 | External Secrets Operator | Synchronizes Kubernetes secrets from AWS Secrets Manager |
 | Velero | Cluster backup and restore with S3-compatible object storage |
 | CloudNativePG | PostgreSQL operator and shared homelab PostgreSQL cluster |
@@ -74,10 +73,6 @@ Public exposure is handled through Cloudflare Tunnel. Cloudflare provides public
 | `infrastructure/` | Helm wrapper charts, values, and Kubernetes manifests for each component |
 | `docs/` | Operational notes and component-specific documentation |
 
-## KubeVirt And CDI
-
-KubeVirt and CDI installation details, node requirements, and validation commands are documented in [docs/kubevirt-cdi.md](./docs/kubevirt-cdi.md).
-
 ## External Secrets Operator
 
 External Secrets Operator synchronizes Kubernetes infrastructure secrets from AWS Secrets Manager. Installation order, AWS credential requirements, manual refresh behavior, and current infrastructure secret mappings are documented in [docs/external-secrets.md](./docs/external-secrets.md).
@@ -92,5 +87,21 @@ High-level bootstrap flow:
 
 1. Install Kubernetes.
 2. Install Argo CD.
-3. Apply `bootstrap/root-app.yaml`.
-4. Let Argo CD reconcile the infrastructure applications from `applications/`.
+3. Configure child `Application` health propagation:
+
+   ```bash
+   kubectl patch configmap argocd-cm \
+     --namespace argocd \
+     --type merge \
+     --patch-file bootstrap/argocd-application-health-patch.yaml
+   ```
+
+4. Apply `bootstrap/root-app.yaml`.
+5. Let Argo CD reconcile the infrastructure applications from `applications/`.
+
+The patch restores health assessment for child applications and removes the
+global status-update exclusion that would prevent their transitions from
+reaching the root application. This makes the root wait for each sync wave to
+become healthy before starting the next one. Without it, waves only order the
+creation of child `Application` resources. Reapply the patch after an Argo CD
+upgrade if its Helm values restore the default ConfigMap settings.
