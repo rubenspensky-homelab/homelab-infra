@@ -8,7 +8,7 @@ This repository defines the cluster infrastructure components managed by Argo CD
 
 ## Architecture
 
-![Homelab Kubernetes architecture](./arch.jpg)
+![Homelab Kubernetes architecture](./architecture.png)
 
 ## Cluster Hardware
 
@@ -93,6 +93,13 @@ Current internal routes:
 - `auth.home.lab`
 - `umami.home.lab`
 
+Current external routes:
+
+- `auth.rubenspensky.com`
+- `grafana.rubenspensky.com`
+- `umami.rubenspensky.com`
+- `telemetry.rubenspensky.com/collect`
+
 Public exposure is handled through Cloudflare Tunnel. Cloudflare provides public TLS termination, so `cert-manager` is not currently required for the public access model.
 
 `cert-manager` may be added later only if the platform needs internal HTTPS certificates, non-Cloudflare ingress TLS, or certificate automation inside the cluster.
@@ -110,31 +117,14 @@ Public exposure is handled through Cloudflare Tunnel. Cloudflare provides public
 
 External Secrets Operator synchronizes Kubernetes infrastructure secrets from AWS Secrets Manager. Installation order, AWS credential requirements, manual refresh behavior, and current infrastructure secret mappings are documented in [docs/external-secrets.md](./docs/external-secrets.md).
 
+## PostgreSQL
+
+CloudNativePG and the shared PostgreSQL cluster model are documented in [docs/postgresql.md](./docs/postgresql.md).
+
 ## Authentik
 
 Authentik deployment structure and the current blueprint-based branding approach are documented in [docs/authentik.md](./docs/authentik.md).
 
-## Bootstrap
+## GPU Support
 
-High-level bootstrap flow:
-
-1. Install Kubernetes.
-2. Install Argo CD.
-3. Configure child `Application` health propagation:
-
-   ```bash
-   kubectl patch configmap argocd-cm \
-     --namespace argocd \
-     --type merge \
-     --patch-file bootstrap/argocd-application-health-patch.yaml
-   ```
-
-4. Apply `bootstrap/root-app.yaml`.
-5. Let Argo CD reconcile the infrastructure applications from `applications/`.
-
-The patch restores health assessment for child applications and removes the
-global status-update exclusion that would prevent their transitions from
-reaching the root application. This makes the root wait for each sync wave to
-become healthy before starting the next one. Without it, waves only order the
-creation of child `Application` resources. Reapply the patch after an Argo CD
-upgrade if its Helm values restore the default ConfigMap settings.
+NVIDIA GPU scheduling and metrics are documented in [docs/gpu.md](./docs/gpu.md). The cluster uses the NVIDIA Device Plugin and DCGM Exporter instead of the GPU Operator to keep GPU support simpler and more predictable for this homelab.
