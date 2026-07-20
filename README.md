@@ -22,32 +22,65 @@ This repository defines the cluster infrastructure components managed by Argo CD
 
 ## Current Components
 
-| Component | Purpose |
+| Category | Component | Purpose |
+| --- | --- | --- |
+| Applications | homelab-apps | Registers the external application repository in Argo CD |
+| Applications | Umami | Provides privacy-focused web analytics backed by PostgreSQL |
+| Backup | Velero | Provides cluster backup and restore with S3-compatible object storage |
+| CI | GitHub Actions Runner Controller | Manages self-hosted GitHub Actions runners |
+| CI | ARC runner scale set | Provides autoscaling GitHub Actions runners |
+| CI | BuildKit | Provides a remote build service with persistent cache |
+| Database | CloudNativePG | Manages the shared PostgreSQL cluster |
+| GitOps | Argo CD root app | Bootstraps the app-of-apps deployment model |
+| Hardware | NVIDIA Device Plugin | Advertises NVIDIA GPUs to Kubernetes workloads |
+| Identity | Authentik | Provides identity and SSO for cluster services |
+| Networking | MetalLB | Provides LoadBalancer IPs on the LAN |
+| Networking | MetalLB config | Defines the LAN IP address pool and L2 advertisement |
+| Networking | Envoy Gateway | Implements Gateway API for cluster routing |
+| Observability | Prometheus Operator CRDs | Installs monitoring APIs before their consumers |
+| Observability | kube-prometheus-stack | Provides Prometheus, Grafana, Alertmanager, kube-state-metrics, and node-exporter |
+| Observability | Grafana Operator | Manages Grafana dashboards |
+| Observability | Loki | Stores logs |
+| Observability | Tempo | Stores traces |
+| Observability | Alloy | Collects logs and traces |
+| Observability | NVIDIA DCGM Exporter | Exposes NVIDIA GPU metrics to Prometheus |
+| Routing | Gateway API routing | Defines the homelab gateway and HTTP routes |
+| Routing | Cloudflare Tunnel | Provides public access through Cloudflare |
+| Security | External Secrets Operator | Synchronizes Kubernetes secrets from AWS backends |
+| Storage | local-path-provisioner | Provides the default local StorageClass |
+| System | metrics-server | Provides the Kubernetes resource metrics API |
+
+## Application Categories
+
+Every Argo CD `Application` defined by this repository uses these labels:
+
+```yaml
+app.kubernetes.io/part-of: homelab-infrastructure
+homelab.io/category: <category>
+```
+
+| Label value | Applications |
 | --- | --- |
-| Argo CD root app | Bootstraps the app-of-apps deployment model |
-| homelab-apps | Registers the external application repository in Argo CD |
-| MetalLB | Provides LoadBalancer IPs on the LAN |
-| MetalLB config | Defines the LAN IP address pool and L2 advertisement |
-| Envoy Gateway | Gateway API implementation for cluster routing |
-| Gateway API routing | Defines the homelab gateway and HTTP routes |
-| Cloudflare Tunnel | Provides public access through Cloudflare |
-| Authentik | Identity provider and SSO for cluster services |
-| local-path-provisioner | Default local storage provisioner |
-| metrics-server | Kubernetes resource metrics API |
-| Prometheus Operator CRDs | Installs monitoring APIs before their consumers |
-| kube-prometheus-stack | Prometheus, Grafana, Alertmanager, kube-state-metrics, and node-exporter |
-| Loki | Log storage backend |
-| Tempo | Trace storage backend |
-| Alloy | Log and trace collector |
-| GitHub Actions Runner Controller | Controller for self-hosted GitHub Actions runners |
-| ARC runner scale set | Autoscaling runner set for GitHub Actions |
-| BuildKit | Remote build service with persistent cache |
-| NVIDIA Device Plugin | Advertises NVIDIA GPUs to Kubernetes workloads |
-| NVIDIA DCGM Exporter | Exposes NVIDIA GPU metrics to Prometheus |
-| External Secrets Operator | Synchronizes Kubernetes secrets from AWS Secrets Manager |
-| Velero | Cluster backup and restore with S3-compatible object storage |
-| CloudNativePG | PostgreSQL operator and shared homelab PostgreSQL cluster |
-| Umami | Privacy-focused web analytics backed by the shared PostgreSQL cluster |
+| `applications` | `homelab-apps`, `umami` |
+| `backup` | `velero` |
+| `ci` | `arc-controller-crds`, `arc-controller`, `arc-runner-set`, `buildkit` |
+| `database` | `cloudnative-pg`, `postgres-clusters` |
+| `gitops` | `homelab-root` |
+| `hardware` | `nvidia-device-plugin` |
+| `identity` | `authentik` |
+| `networking` | `metallb`, `metallb-config`, `envoy-gateway` |
+| `observability` | `prometheus-crds`, `prometheus-stack`, `grafana-operator`, `loki`, `tempo`, `alloy`, `dcgm-exporter` |
+| `routing` | `routing`, `cloudflare-tunnel` |
+| `security` | `external-secrets-crds`, `external-secrets`, `external-secrets-store` |
+| `storage` | `local-path-provisioner` |
+| `system` | `metrics-server` |
+
+Use the category label in the Argo CD UI or query it directly:
+
+```bash
+kubectl get applications -n argocd \
+  -l homelab.io/category=observability
+```
 
 ## Current Routing And Exposure
 

@@ -3,6 +3,9 @@ kind: Application
 metadata:
   name: velero
   namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: homelab-infrastructure
+    homelab.io/category: backup
   annotations:
     argocd.argoproj.io/sync-wave: "-5"
 spec:
